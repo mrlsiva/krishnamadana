@@ -198,3 +198,60 @@ a.nav-link:hover::after {
     transform-origin: right center;
     transform: scaleX(0);
 }
+.banner-text p {
+    width: 30%;
+    margin-left: 30%;
+    margin-right: 10%;
+    font-size: 24px;
+    color: var(--primary-color);
+}
+.banner-text p .color-red {
+    color: #E30013;
+}
+.banner-text p .color-blue {
+    color: #0097DD;
+}
+.banner-text p .color-yellow {
+    color: #EBC700;
+}
+.banner-text p .color-orange {
+    color: #FD5900;
+}
+.our-promises {
+    background: #FFF6EA;
+}
+.our-promises h2 {
+    font-size: 1.2rem;
+    text-transform: uppercase;
+}
+.our-promises img {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 1rem;
+}
+.our-promises img + p {
+    text-transform: uppercase;
+    text-align: center;
+    color: #333333;
+    font-size: 0.85rem;
+}
+footer {
+    padding: 2rem 3rem;
+    border-top: 1px solid #e7e7e7;
+}
+footer h3 {
+    text-transform: uppercase;
+    color: #5C5C5C;
+    font-size: 18px;
+    margin-bottom: 1rem;
+}
+footer nav li {
+    margin: 0.5rem 0;
+}
+footer nav li a {
+    color: #777777;
+    font-size: 0.85rem;
+}
+footer .copyright {
+    color: #777777;
+}

@@ -10,4 +10,7 @@
     <x-public.home.carousel />
     <x-public.home.collections />
     <x-public.home.best-sellers />
+    <x-public.home.banner />
+    <x-public.home.our-promises />
+    <x-public.common.footer />
 @endsection
