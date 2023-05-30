@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Livewire\ShowCollections;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +17,6 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('admin')->group(base_path('routes/admin_routes.php'));
 
 Route::view('/', 'public.home')->name('home');
+Route::name('home.')->group(function () {
+    Route::get('/collections/{collection}', ShowCollections::class)->name('collections');
+});

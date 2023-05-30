@@ -10,7 +10,10 @@
 </head>
 
 <body class="antialiased">
-    @yield('body')
+    <x-public.common.announcement />
+    <x-public.common.header />
+    @yield('main')
+    <x-public.common.footer />
 </body>
 @livewireScripts
 

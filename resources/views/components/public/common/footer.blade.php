@@ -40,8 +40,8 @@
         <div class="flex flex-col">
             <h3>Follow Us At</h3>
             <div class="flex">
-                <a href="" class="mr-5"><img src="images/ic_facebook.png" alt=""></a>
-                <a href=""><img src="images/ic_instagram.png" alt=""></a>
+                <a href="" class="mr-5"><img src="/images/ic_facebook.png" alt=""></a>
+                <a href=""><img src="/images/ic_instagram.png" alt=""></a>
             </div>
         </div>
     </div>

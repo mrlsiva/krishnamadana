@@ -3,7 +3,7 @@
         <img src="/images/home/collection-1.webp" class="w-full" alt="">
         <div class="collection__content">
             <h2>Kurta Sets</h2>
-            <a href="" class="primary-link">Shop Now</a>
+            <a href="{{ route('home.collections', ['collection' => 'kurta-sets']) }}" class="primary-link">Shop Now</a>
         </div>
     </div>
     <div class="collection relative overflow-hidden">
