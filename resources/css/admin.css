@@ -4,6 +4,9 @@
 
 :root {
     --primary-color: #5c5c5c;
+    --text-color: #6d7080;
+    --text-highlight-color: #3d78e3;
+    --text-highlight-opacity: #3d78e350;
 }
 
 button.primary:not([disabled]) {
@@ -38,4 +41,51 @@ button.primary:not([disabled]):hover:before {
     transition: transform 0.5s cubic-bezier(.785,.135,.15,.86);
     transform-origin: right center;
     transform: scaleX(0);
+}
+.main-nav, .secondary-nav {
+    position: fixed;
+    height: 100%;
+    overflow: auto;
+    box-shadow: 0 2px 4px rgba(15,34,58,.12);
+    padding: 10px;
+    width: 80px;
+}
+.main-nav a {
+    color: var(--text-color);
+    padding: 0.5rem;
+    border-radius: 4px;
+}
+.main-nav a.active, .main-nav a:hover {
+    color: var(--text-highlight-color);
+    background: var(--text-highlight-opacity);
+}
+.secondary-nav {
+    left: 80px;
+    width: 180px;
+}
+.secondary-nav li {
+    padding: 1rem 0;
+}
+.secondary-nav a {
+    padding-left: 20px;
+    margin-bottom: 1rem;
+    position: relative;
+    display: block;
+}
+.secondary-nav a::before {
+    content: '';
+    width: 8px;
+    height: 1.5px;
+    background: var(--text-color);
+    display: block;
+    position: absolute;
+    top: 11px;
+    left: 0;
+}
+.page-content {
+    margin-left: 260px;
+}
+.page-content .header {
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(15,34,58,.12);
 }
