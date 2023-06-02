@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ config('app.name') }} @yield('title')</title>
-    @livewireStyles
+    @livewireStyles()
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
@@ -14,7 +14,7 @@
     <x-public.common.header />
     @yield('main')
     <x-public.common.footer />
+    @livewireScripts()
 </body>
-@livewireScripts
 
 </html>

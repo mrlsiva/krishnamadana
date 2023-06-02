@@ -5,11 +5,15 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ config('app.name') }} - @yield('title')</title>
+    @livewireStyles()
     @vite(['resources/css/admin.css', 'resources/js/app.js'])
 </head>
 
 <body class="antialiased">
     @yield('body')
 </body>
+@livewireScripts()
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<x-livewire-alert::scripts />
 
 </html>

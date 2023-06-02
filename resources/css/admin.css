@@ -7,6 +7,7 @@
     --text-color: #6d7080;
     --text-highlight-color: #3d78e3;
     --text-highlight-opacity: #3d78e350;
+    --background: #f3f3f9;
 }
 
 button.primary:not([disabled]) {
@@ -62,15 +63,15 @@ button.primary:not([disabled]):hover:before {
 .secondary-nav {
     left: 80px;
     width: 180px;
+    padding: 1rem;
 }
-.secondary-nav li {
-    padding: 1rem 0;
-}
+
 .secondary-nav a {
     padding-left: 20px;
     margin-bottom: 1rem;
     position: relative;
     display: block;
+    font-size: 0.9rem;
 }
 .secondary-nav a::before {
     content: '';
@@ -82,10 +83,37 @@ button.primary:not([disabled]):hover:before {
     top: 11px;
     left: 0;
 }
+.secondary-nav a.active {
+    color: var(--text-highlight-color);
+}
+.secondary-nav a.active::before {
+    background-color: var(--text-highlight-color);
+}
 .page-content {
     margin-left: 260px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 100vh;
 }
 .page-content .header {
     padding: 1rem;
     box-shadow: 0 2px 4px rgba(15,34,58,.12);
+}
+.section-content {
+    background: var(--background);
+}
+.section-header {
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-align: center;
+}
+.label {
+    @apply font-semibold block mb-2 text-slate-800;
+}
+.input {
+    @apply w-full py-3 border px-2 rounded;
+}
+.primary-button {
+    @apply inline-block my-4 bg-green-600 text-white px-4 py-2 rounded;
 }
