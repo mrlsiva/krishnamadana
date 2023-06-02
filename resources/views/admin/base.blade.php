@@ -15,5 +15,16 @@
 @livewireScripts()
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <x-livewire-alert::scripts />
+<script src="//cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
+<script>
+    CKEDITOR.replace('description', {
+        toolbar: [
+            ['Bold', 'Italic', 'Strike'],
+            ['Link', 'Unlink', 'Anchor'],
+            ['NumberedList', 'BulletedList', 'Outdent', 'Indent', 'Blockquote'],
+            ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo'],
+        ]
+    });
+</script>
 
 </html>
