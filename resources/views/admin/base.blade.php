@@ -26,5 +26,6 @@
         ]
     });
 </script>
+@yield('scripts')
 
 </html>

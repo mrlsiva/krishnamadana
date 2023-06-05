@@ -4,12 +4,14 @@ namespace App\Http\Livewire\Admin;
 
 use Livewire\Component;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
+use Livewire\WithFileUploads;
 
 class CreateProduct extends Component
 {
-    use LivewireAlert;
+    use LivewireAlert, WithFileUploads;
 
     public $product;
+    public $uploads = [];
 
     public function mount()
     {
