@@ -2,7 +2,7 @@
     <div class="flex my-4 w-full items-center">
         <div class="flex-1"></div>
         <div class="logo mb-2">
-            <a href="{{ route('home') }}"><img src="/images/logo.jpg" alt=""></a>
+            <a href="{{ route('home') }}"><img src="/images/logo.png" alt=""></a>
         </div>
         <div class="flex-1">
             <nav class="flex justify-end mx-8">

@@ -8,10 +8,12 @@ use Livewire\WithFileUploads;
 
 class CreateProduct extends Component
 {
-    use LivewireAlert, WithFileUploads;
+    use LivewireAlert, WithFileUploads, LivewireAlert;
 
     public $product;
     public $uploads = [];
+    public $variant_name = '';
+    public $variants = [];
 
     public function mount()
     {
@@ -26,5 +28,26 @@ class CreateProduct extends Component
 
     public function save()
     {
+    }
+
+    public function create_variant()
+    {
+        if ($this->variant_name == '') {
+            $this->alert('warning', 'Enter a variant name!');
+            return;
+        }
+        array_push($this->varints, array(
+            'name' => $this->variant_name,
+        ));
+    }
+
+    public function create_default_variants()
+    {
+        array_push($this->varints, array(
+            'name' => 'Color',
+        ));
+        array_push($this->varints, array(
+            'name' => 'Size',
+        ));
     }
 }
