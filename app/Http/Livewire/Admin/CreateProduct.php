@@ -36,17 +36,17 @@ class CreateProduct extends Component
             $this->alert('warning', 'Enter a variant name!');
             return;
         }
-        array_push($this->varints, array(
+        array_push($this->variants, array(
             'name' => $this->variant_name,
         ));
     }
 
     public function create_default_variants()
     {
-        array_push($this->varints, array(
+        array_push($this->variants, array(
             'name' => 'Color',
         ));
-        array_push($this->varints, array(
+        array_push($this->variants, array(
             'name' => 'Size',
         ));
     }

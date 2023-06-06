@@ -27,5 +27,6 @@
     });
 </script>
 @yield('scripts')
+@livewire('livewire-ui-modal')
 
 </html>

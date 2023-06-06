@@ -71,7 +71,9 @@
                         <div class="border border-dashed p-4 mb-4">
                             <p class="text-center text-gray-600">No SKU added.</p>
                         </div>
-                        <button type="button" class="bg-orange-500 px-4 py-2 rounded text-white">Create New
+                        <button type="button" class="bg-orange-500 px-4 py-2 rounded text-white"
+                            wire:click="$emit('openModal', 'admin.modal.create-sku', {{ json_encode(['variants' => $variants]) }})">Create
+                            New
                             SKU</button>
                         <div class="relative mb-4">
                             <label for="categoryname" class="label">Product SKU</label>
@@ -83,9 +85,19 @@
                         </div>
                     </div>
                     <div class="tab-content pt-4" x-show="currentTab == 'variant'">
-                        <div class="border border-dashed p-4 mb-4">
-                            <p class="text-center text-gray-600">No Variants added.</p>
-                        </div>
+                        @if (sizeof($variants) == 0)
+                            <div class="border border-dashed p-4 mb-4">
+                                <p class="text-center text-gray-600">No Variants added.</p>
+                            </div>
+                        @endif
+                        @foreach ($variants as $variant)
+                            <div class="border border-dashed p-4 mb-4 flex items-center justify-between">
+                                <div class="font-bold">{{ $variant['name'] }}</div>
+                                <button type="button">
+                                    <x-icons.delete />
+                                </button>
+                            </div>
+                        @endforeach
                         <div class="relative mb-4">
                             <label for="categoryname" class="label">Add New Variant</label>
                             <input name="description" id="categoryname" type="text" class="peer input"
@@ -94,9 +106,11 @@
                         </div>
                         <button type="button" class="bg-orange-500 px-4 py-2 rounded text-white"
                             wire:click="create_variant">Add Variant</button>
-                        <button type="button" class="bg-orange-800 ms-4 px-4 py-2 rounded text-white"
-                            wire:click="create_default_variants">Create
-                            Default Variants</button>
+                        @if (sizeof($variants) == 0)
+                            <button type="button" class="bg-orange-800 ms-4 px-4 py-2 rounded text-white"
+                                wire:click="create_default_variants">Create
+                                Default Variants</button>
+                        @endif
                     </div>
                 </div>
                 <div class="bg-white shadow-lg mb-4" x-data="{ currentTab: 'general' }">

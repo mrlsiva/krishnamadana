@@ -1,7 +1,9 @@
 import "./bootstrap";
 import Alpine from "alpinejs";
+import focus from '@alpinejs/focus'
 import Swiper from "swiper";
 
+Alpine.plugin(focus);
 window.Alpine = Alpine;
 window.Swiper = Swiper;
 
