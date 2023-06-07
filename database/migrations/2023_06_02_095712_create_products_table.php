@@ -17,10 +17,14 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description')->nullable();
-            $table->text('shipping_info')->nullable();
+            $table->enum('status', array('Published', 'Draft'))->default('Draft');
+            $table->enum('visibility', array('Public', 'Hidden'))->default('Public');
+            $table->foreignId('category_id')->constrained();
             $table->text('additional_info')->nullable();
             $table->timestamps();
             $table->softDeletes();
+            $table->index(['status', 'visibility']);
+            $table->index('name');
         });
     }
 

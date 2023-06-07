@@ -117,3 +117,6 @@ button.primary:not([disabled]):hover:before {
 .primary-button {
     @apply inline-block my-4 bg-green-600 text-white px-4 py-2 rounded;
 }
+.error, .field-required {
+    @apply text-red-500;
+}

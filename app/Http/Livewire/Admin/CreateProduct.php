@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Admin;
 
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\WithFileUploads;
@@ -14,6 +15,9 @@ class CreateProduct extends Component
     public $uploads = [];
     public $variant_name = '';
     public $variants = [];
+    public $skus = [];
+
+    protected $listeners = ['skuAdded'];
 
     public function mount()
     {
@@ -28,6 +32,11 @@ class CreateProduct extends Component
 
     public function save()
     {
+    }
+
+    public function skuAdded($sku)
+    {
+        array_push($this->skus, $sku);
     }
 
     public function create_variant()

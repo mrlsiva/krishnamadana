@@ -3,19 +3,27 @@
 namespace App\Http\Livewire\Admin;
 
 use App\Models\Category;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Rules\File;
 use Livewire\Component;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
+use Livewire\WithFileUploads;
 
 class CreateCategory extends Component
 {
-    use LivewireAlert;
+    use LivewireAlert, WithFileUploads;
 
     public $name;
+    public $order = 1;
+    public $mediaComponentNames = ['image'];
+    public $image;
+    public $isResponsive;
 
     protected $rules = [
         'name' => 'required|min:3',
+        'image' => 'required|file|mimes:jpg,png,webp',
+        'order' => 'required|numeric'
     ];
-
 
     public function render()
     {
@@ -27,10 +35,23 @@ class CreateCategory extends Component
     public function save()
     {
         $this->validate();
-        Category::create([
-            'name' => $this->name
+        $category = Category::create([
+            'name' => $this->name,
+            'order' => $this->order,
         ]);
+        $category->addMedia($this->image->getRealPath())
+            ->withResponsiveImages()
+            ->withResponsiveImagesIf($this->isResponsive == 'yes')
+            ->toMediaCollection('categories');
         $this->alert('success', 'Category is added successfully!');
         $this->name = '';
+        $this->order = 1;
+        $this->isResponsive = null;
+        $this->remove_image();
+    }
+
+    public function remove_image()
+    {
+        $this->image = null;
     }
 }

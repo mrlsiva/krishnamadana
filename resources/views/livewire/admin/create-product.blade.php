@@ -54,7 +54,7 @@
                                     <x-icons.upload />
                                 </div>
                             </button>
-                            <p class="font-semibold text-md text-slate-600">Drop files here or click to upload</p>
+                            <p class="font-semibold text-md text-slate-600">Click to upload</p>
                         </div>
                         <input name="images" id="images" type="file" class="hidden" x-ref="image" multiple />
                     </div>
@@ -68,21 +68,36 @@
                             :class="currentTab == 'variant' ? 'border-b border-blue-500' : ''">Add Variant</button>
                     </div>
                     <div class="tab-content pt-4" x-show="currentTab == 'sku'">
-                        <div class="border border-dashed p-4 mb-4">
-                            <p class="text-center text-gray-600">No SKU added.</p>
-                        </div>
+                        @if (sizeof($skus) == 0)
+                            <div class="border border-dashed p-4 mb-4">
+                                <p class="text-center text-gray-600">No SKU added.</p>
+                            </div>
+                        @endif
+                        @foreach ($skus as $sku)
+                            <div class="border p-4 mb-4 flex">
+                                <div class="flex flex-col flex-1">
+                                    <p><strong>{{ $sku['sku_id'] }}</strong></p>
+                                    <p>
+                                        @foreach ($sku['variants'] as $variant)
+                                            {{ $loop->first ? '' : ', ' }}
+                                            <span class="nice">{{ $variant['value'] }}</span>
+                                        @endforeach
+                                    </p>
+                                </div>
+                                <div class="flex flex-col">
+                                    <p><strong>{{ $sku['price'] }}</strong></p>
+                                    @if (isset($sku['stock']))
+                                        <p>{{ $sku['stock'] }} stock</p>
+                                    @else
+                                        <p>Stock unlimited</p>
+                                    @endif
+                                </div>
+                            </div>
+                        @endforeach
                         <button type="button" class="bg-orange-500 px-4 py-2 rounded text-white"
                             wire:click="$emit('openModal', 'admin.modal.create-sku', {{ json_encode(['variants' => $variants]) }})">Create
                             New
                             SKU</button>
-                        <div class="relative mb-4">
-                            <label for="categoryname" class="label">Product SKU</label>
-                            <input name="description" id="categoryname" type="text" class="peer input"
-                                placeholder="Enter category name" wire:model="title" required />
-                            @error('name')
-                                <span class="error">{{ $message }}</span>
-                            @enderror
-                        </div>
                     </div>
                     <div class="tab-content pt-4" x-show="currentTab == 'variant'">
                         @if (sizeof($variants) == 0)
@@ -121,19 +136,11 @@
                             :class="currentTab == 'meta' ? 'border-b border-blue-500' : ''">Meta Data</button>
                     </div>
                     <div class="tab-content p-4" x-show="currentTab == 'general'">
-                        <div class="flex">
-                            <div class="relative mb-4">
-                                <label for="stocks" class="label">Stocks</label>
-                                <input name="stocks" id="stocks" type="text" class="peer input"
-                                    placeholder="Stock count" wire:model="title" required />
-                                @error('name')
-                                    <span class="error">{{ $message }}</span>
-                                @enderror
-                            </div>
-                            <div class="relative mb-4 ml-4">
-                                <label for="stocks" class="label">Price</label>
-                                <input name="stocks" id="stocks" type="text" class="peer input"
-                                    placeholder="Stock count" wire:model="title" required />
+                        <div class="flex w-full">
+                            <div class="relative w-full mb-4">
+                                <label for="stocks" class="label">Additional Information</label>
+                                <input name="additionalInfo" id="additionalInfo" type="text" class="peer input"
+                                    placeholder="Enter category name" wire:model="title" required />
                                 @error('name')
                                     <span class="error">{{ $message }}</span>
                                 @enderror
@@ -150,7 +157,7 @@
                                     <span class="error">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <div class="relative mb-4 ml-4">
+                            <div class="relative mb-4 ml-4 flex-1">
                                 <label for="stocks" class="label">Meta Keywords</label>
                                 <input name="stocks" id="stocks" type="text" class="peer input"
                                     placeholder="Stock count" wire:model="title" required />
@@ -205,7 +212,8 @@
                         <select name="" id="">
                             <option value="">Select category</option>
                         </select>
-                        <a href="" class="my-2 text-blue-500">Add New Category</a>
+                        <a href="{{ route('admin.createCategory') }}" class="my-2 text-blue-500 text-center">Add New
+                            Category</a>
                     </div>
                 </div>
                 <div class="bg-white shadow-lg p-4 mt-4">
@@ -214,7 +222,7 @@
                         <select name="" id="">
                             <option value="">Select collection</option>
                         </select>
-                        <a href="" class="my-2 text-blue-500">Add New Collection</a>
+                        <a href="" class="my-2 text-blue-500 text-center">Add New Collection</a>
                     </div>
                 </div>
             </div>
