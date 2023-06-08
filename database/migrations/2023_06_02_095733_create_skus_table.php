@@ -17,9 +17,11 @@ return new class extends Migration
             $table->id();
             $table->foreignId('product_id')->constrained()->cascadeOnDelete();
             $table->string('sku')->comment('Alpha-numeric SKU code of the product.');
-            $table->unsignedInteger('amount');
+            $table->decimal('amount', 8, 2);
+            $table->integer('stock')->nullable();
             $table->timestamps();
             $table->softDeletes();
+            $table->unique(['product_id', 'sku']);
         });
     }
 

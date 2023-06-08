@@ -94,11 +94,12 @@ a.nav-link:hover::after {
 .collections-grid {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
-    grid-gap: 16px;
+    grid-gap: 32px;
     overflow: hidden;
 }
 .collections-grid .collection {
     grid-column: auto / span 2;
+    max-height: 500px;
 }
 .collections-grid .collection.grid-span {
     grid-column: auto / span 3;

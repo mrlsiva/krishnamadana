@@ -19,15 +19,30 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td class="p-4">1.</td>
-                        <td class="p-4">Product Name</td>
-                        <td class="p-4">14</td>
-                        <td class="p-4">Rs. 200</td>
-                        <td class="p-4">10</td>
-                        <td class="p-4">5</td>
-                        <td class="p-4"></td>
-                    </tr>
+                    @empty($products->count())
+                        <x-admin.no-results-table colspan="7" />
+                    @endempty
+                    @foreach ($products as $product)
+                        <tr>
+                            <td class="p-4">{{ $loop->iteration }}.</td>
+                            <td class="p-4">{{ $product->name }}</td>
+                            <td class="p-4">14</td>
+                            <td class="p-4">Rs. 200</td>
+                            <td class="p-4">10</td>
+                            <td class="p-4">5</td>
+                            <td class="p-4">
+                                <div class="flex">
+                                    <a href="{{ route('admin.editProduct', ['product' => $product]) }}"
+                                        class="inline-block w-8 h-8 bg-blue-600 text-white p-2 rounded mr-5">
+                                        <x-icons.edit />
+                                    </a>
+                                    <button class="w-8 h-8 bg-red-600 text-white p-2 rounded">
+                                        <x-icons.delete />
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>

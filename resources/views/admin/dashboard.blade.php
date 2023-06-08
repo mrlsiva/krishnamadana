@@ -18,14 +18,14 @@
         <nav class="secondary-nav">
             <ul>
                 <li>
-                    <a href="">Products</a>
+                    <a href="{{ route('admin.productList') }}" class="@isLinkActive('admin.productList')">Products</a>
                 </li>
                 <li>
                     <a href="{{ route('admin.createProduct') }}" class="@isLinkActive('admin.createProduct')">Create
                         Product</a>
                 </li>
                 <li>
-                    <a href="">Categories</a>
+                    <a href="{{ route('admin.categoryList') }}" class="@isLinkActive('admin.categoryList')">Categories</a>
                 </li>
                 <li>
                     <a href="{{ route('admin.createCategory') }}" class="@isLinkActive('admin.createCategory')">Create

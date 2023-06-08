@@ -19,14 +19,14 @@ class Product extends Model
         return $this->hasMany(Attribute::class);
     }
 
-    public function attributeSku()
+    public function skus()
     {
-        return $this->hasMany(AttributeSku::class);
+        return $this->hasMany(Sku::class);
     }
 
     public function category()
     {
-        return $this->hasOne(Category::class);
+        return $this->hasOne(Category::class, 'id', 'category_id');
     }
 
     public function collection()

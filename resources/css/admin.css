@@ -115,7 +115,7 @@ button.primary:not([disabled]):hover:before {
     @apply w-full py-3 border px-2 rounded ring-gray-500 outline-gray-500;
 }
 .primary-button {
-    @apply inline-block my-4 bg-green-600 text-white px-4 py-2 rounded;
+    @apply inline-block my-4 bg-green-600 text-white px-4 py-2 rounded disabled:bg-green-600/40;
 }
 .error, .field-required {
     @apply text-red-500;

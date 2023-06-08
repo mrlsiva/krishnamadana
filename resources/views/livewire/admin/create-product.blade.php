@@ -1,6 +1,6 @@
 <div class="">
     <div class="section-header">
-        Create Product
+        {{ $editing ? 'Edit' : 'Create' }} Product
     </div>
     <form wire:submit.prevent="save">
         <div class="flex p-4">
@@ -9,19 +9,19 @@
                     <div class="relative mb-4">
                         <label for="categoryname" class="label">Product Title</label>
                         <input name="name" id="categoryname" type="text" class="peer input"
-                            placeholder="Enter category name" wire:model="title" required />
-                        @error('name')
+                            placeholder="Enter category name" wire:model="product.name" />
+                        @error('product.name')
                             <span class="error">{{ $message }}</span>
                         @enderror
                     </div>
-                    <div class="relative mb-4">
+                    <div class="relative mb-4" wire:ignore>
                         <label for="categoryname" class="label">Product Description</label>
                         <input name="description" id="categoryname" type="text" class="peer input"
-                            placeholder="Enter category name" wire:model="title" required />
-                        @error('name')
-                            <span class="error">{{ $message }}</span>
-                        @enderror
+                            placeholder="Enter category name" wire:model="product.description" />
                     </div>
+                    @error('product.description')
+                        <span class="error">{{ $message }}</span>
+                    @enderror
                 </div>
                 <div class="bg-white shadow-lg p-4 mb-4">
                     <h2 class="text-slate-600 border-b pb-2 mb-4 font-semibold text-lg">Product Gallery</h2>
@@ -40,7 +40,7 @@
                                             <p class="text-white">Uploading...</p>
                                         </div>
                                     @endif
-                                    <button class="bg-red-600 text-white px-4 py-2">Remove</button>
+                                    <button type="button" class="bg-red-600 text-white px-4 py-2">Remove</button>
                                 </div>
                             @endforeach
                         </div>
@@ -76,7 +76,7 @@
                         @foreach ($skus as $sku)
                             <div class="border p-4 mb-4 flex">
                                 <div class="flex flex-col flex-1">
-                                    <p><strong>{{ $sku['sku_id'] }}</strong></p>
+                                    <p class="text-zinc-600"><strong>{{ $sku['sku'] }}</strong></p>
                                     <p>
                                         @foreach ($sku['variants'] as $variant)
                                             {{ $loop->first ? '' : ', ' }}
@@ -85,7 +85,7 @@
                                     </p>
                                 </div>
                                 <div class="flex flex-col">
-                                    <p><strong>{{ $sku['price'] }}</strong></p>
+                                    <p class="text-zinc-600"><strong>₹ {{ $sku['amount'] }}</strong></p>
                                     @if (isset($sku['stock']))
                                         <p>{{ $sku['stock'] }} stock</p>
                                     @else
@@ -135,16 +135,16 @@
                         <button type="button" class="p-4 text-blue-500" @click="currentTab = 'meta'"
                             :class="currentTab == 'meta' ? 'border-b border-blue-500' : ''">Meta Data</button>
                     </div>
-                    <div class="tab-content p-4" x-show="currentTab == 'general'">
+                    <div class="tab-content p-4" x-show="currentTab == 'general'" wire:ignore>
                         <div class="flex w-full">
                             <div class="relative w-full mb-4">
                                 <label for="stocks" class="label">Additional Information</label>
                                 <input name="additionalInfo" id="additionalInfo" type="text" class="peer input"
-                                    placeholder="Enter category name" wire:model="title" required />
-                                @error('name')
-                                    <span class="error">{{ $message }}</span>
-                                @enderror
+                                    placeholder="Enter category name" wire:model="product.additional_info" />
                             </div>
+                            @error('product.additional_info')
+                                <span class="error">{{ $message }}</span>
+                            @enderror
                         </div>
                     </div>
                     <div class="tab-content p-4" x-show="currentTab == 'meta'">
@@ -152,7 +152,7 @@
                             <div class="relative mb-4">
                                 <label for="stocks" class="label">Meta Title</label>
                                 <input name="stocks" id="stocks" type="text" class="peer input"
-                                    placeholder="Stock count" wire:model="title" required />
+                                    placeholder="Stock count" wire:model="title" />
                                 @error('name')
                                     <span class="error">{{ $message }}</span>
                                 @enderror
@@ -160,7 +160,7 @@
                             <div class="relative mb-4 ml-4 flex-1">
                                 <label for="stocks" class="label">Meta Keywords</label>
                                 <input name="stocks" id="stocks" type="text" class="peer input"
-                                    placeholder="Stock count" wire:model="title" required />
+                                    placeholder="Stock count" wire:model="title" />
                                 @error('name')
                                     <span class="error">{{ $message }}</span>
                                 @enderror
@@ -168,7 +168,7 @@
                             <div class="relative mb-4 basis-full flex-1">
                                 <label for="stocks" class="label">Meta Description</label>
                                 <textarea name="stocks" id="stocks" type="text" class="peer input" placeholder="Stock count"
-                                    wire:model="title" required></textarea>
+                                    wire:model="title"></textarea>
                                 @error('name')
                                     <span class="error">{{ $message }}</span>
                                 @enderror
@@ -186,7 +186,7 @@
                     <div class="relative mb-4">
                         <label for="categoryname" class="label">Status</label>
                         <select name="name" id="categoryname" type="text" class="peer input"
-                            placeholder="Enter category name" wire:model="title" required>
+                            placeholder="Enter category name" wire:model="product.status">
                             <option value="">Published</option>
                             <option value="">Draft</option>
                         </select>
@@ -197,7 +197,7 @@
                     <div class="relative mb-4">
                         <label for="categoryname" class="label">Visibility</label>
                         <select name="name" id="categoryname" type="text" class="peer input"
-                            placeholder="Enter category name" wire:model="title" required>
+                            placeholder="Enter category name" wire:model="product.visibility">
                             <option value="">Public</option>
                             <option value="">Hidden</option>
                         </select>
@@ -209,9 +209,15 @@
                 <div class="bg-white shadow-lg p-4 mt-4">
                     <h2 class="text-slate-600 border-b pb-2 mb-4 font-semibold text-lg">Categories</h2>
                     <div class="flex flex-col">
-                        <select name="" id="">
-                            <option value="">Select category</option>
+                        <select name="category_id" id="category_id" wire:model="product.category_id">
+                            <option value="">Select Category</option>
+                            @foreach ($categories as $category)
+                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                            @endforeach
                         </select>
+                        @error('product.category_id')
+                            <span class="error">{{ $message }}</span>
+                        @enderror
                         <a href="{{ route('admin.createCategory') }}" class="my-2 text-blue-500 text-center">Add New
                             Category</a>
                     </div>
@@ -253,5 +259,23 @@
                 });
             });
         });
+        var editorOptions = {
+            toolbar: [
+                ['Bold', 'Italic', 'Strike'],
+                ['Link', 'Unlink', 'Anchor'],
+                ['NumberedList', 'BulletedList', 'Outdent', 'Indent', 'Blockquote'],
+                ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo'],
+            ]
+        };
+        const descEditor = CKEDITOR.replace('description', editorOptions);
+        const addEditor = CKEDITOR.replace('additionalInfo', editorOptions);
+        descEditor.on('change', function(event) {
+            @this.set('product.description', event.editor.getData());
+        });
+        addEditor.on('change', function(event) {
+            @this.set('product.additional_info', event.editor.getData());
+        });
+        descEditor.setData('{!! trim($product->description) !!}');
+        addEditor.setData('{!! trim($product->additional_info) !!}');
     </script>
 @endsection

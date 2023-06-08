@@ -25,7 +25,7 @@
                         <a href="">Blouses</a>
                     </ul>
                 </li>
-                <li class="relative" x-data="{ open: false }" @mouseover.away="open=false">
+                {{-- <li class="relative" x-data="{ open: false }" @mouseover.away="open=false">
                     <a href="" class="p-4 nav-link" @mouseover="open=true">Collections</a>
                     <ul class="dropdown-menu collections-menu" x-show="open">
                         <a href="">Shop All</a>
@@ -33,7 +33,7 @@
                         <a href="">Ikara</a>
                     </ul>
                 </li>
-                <li><a href="" class="p-4 nav-link">Sale</a></li>
+                <li><a href="" class="p-4 nav-link">Sale</a></li> --}}
                 <li><a href="" class="p-4 nav-link">About Us</a></li>
                 <li><a href="" class="p-4 nav-link">Contact Us</a></li>
             </ul>

@@ -9,14 +9,13 @@ class CreateSku extends ModalComponent
 {
 
     public array $variants;
-    public $sku_id;
     public $price;
     public $stock;
     public $sku = array();
 
     public function mount()
     {
-        $this->sku['sku_id'] = Str::sku('Name');
+        $this->sku['sku'] = Str::sku('Name');
         $this->sku['variants'] = $this->variants;
     }
 

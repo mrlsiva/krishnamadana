@@ -13,7 +13,7 @@
         <div class="flex items-center justify-between mt-4">
             <label for="" class="basis-16 text-right font-bold mr-4">Price <span
                     class="text-red-500">*</span></label>
-            <input type="number" placeholder="Enter the SKU price" class="flex-1 peer input" wire:model="sku.price" />
+            <input type="number" placeholder="Enter the SKU price" class="flex-1 peer input" wire:model="sku.amount" />
         </div>
         <div class="flex items-center justify-between mt-4">
             <label for="" class="basis-16 text-right font-bold mr-4">Stock</label>

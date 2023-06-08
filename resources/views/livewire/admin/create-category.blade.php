@@ -46,7 +46,7 @@
         @endif
         <div class="flex">
             <label>
-                <input type="checkbox" class="mr-2" wire:model="isResponsive" value="yes" /> Upload with reponsive
+                <input type="checkbox" class="mr-2" wire:model="isResponsive" value="yes" /> Create reponsive
                 images
             </label>
         </div>
@@ -54,7 +54,8 @@
             <span class="error">{{ $message }}</span>
         @enderror
         <div class="flex mt-4">
-            <button class="primary-button">Add Category</button>
+            <button class="primary-button" wire:target="save" wire:loading.attr="disabled">Add
+                Category</button>
         </div>
     </form>
 </div>

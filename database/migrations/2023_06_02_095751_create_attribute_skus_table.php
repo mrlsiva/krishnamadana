@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignId('sku_id')->constrained()->cascadeOnDelete();
             $table->string('value');
             $table->timestamps();
+            $table->unique(['attribute_id', 'sku_id']);
         });
     }
 

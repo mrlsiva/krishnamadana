@@ -1,18 +1,19 @@
 <?php
 
-namespace App\View\Components\Public\Home;
+namespace App\View\Components\admin;
 
 use Illuminate\View\Component;
 
-class Collections extends Component
+class NoResultsTable extends Component
 {
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct()
-    {
+    public function __construct(
+        public int $colspan,
+    ) {
         //
     }
 
@@ -23,6 +24,6 @@ class Collections extends Component
      */
     public function render()
     {
-        return view('components.public.home.collections');
+        return view('components.admin.no-results-table');
     }
 }
