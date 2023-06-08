@@ -1,11 +1,11 @@
 {
   "resources/css/admin.css": {
-    "file": "assets/admin-2e94cc60.css",
+    "file": "assets/admin-e282baa5.css",
     "isEntry": true,
     "src": "resources/css/admin.css"
   },
   "resources/css/app.css": {
-    "file": "assets/app-fcdad5d8.css",
+    "file": "assets/app-95bbf875.css",
     "isEntry": true,
     "src": "resources/css/app.css"
   },
