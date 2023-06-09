@@ -1,9 +1,9 @@
 <div class="w-full flex flex-col mx-auto p-4">
     <h1 class="text-center font-bold text-lg text-slate-600">Create New SKU</h1>
-    <div class="">SKU: <strong>{{ $sku['sku_id'] }}</strong></div>
+    <div class="">SKU: <strong>{{ $sku['sku'] }}</strong></div>
     <p><span class="text-red-500">*</span> are required fields</p>
     <form wire:submit.prevent="create_sku">
-        @foreach ($sku['variants'] as $index => $variant)
+        @foreach ($variants as $index => $variant)
             <div class="flex items-center justify-between mt-4">
                 <label for="" class="basis-16 text-right font-bold mr-4">{{ $variant['name'] }}</label>
                 <input type="text" placeholder="Enter the {{ $variant['name'] }} value" class="flex-1 peer input"

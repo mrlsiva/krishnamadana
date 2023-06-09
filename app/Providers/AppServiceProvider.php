@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Services\ProductService;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Log;
@@ -9,6 +10,7 @@ use Illuminate\Support\Facades\Route;
 
 class AppServiceProvider extends ServiceProvider
 {
+
     /**
      * Register any application services.
      *
@@ -28,6 +30,9 @@ class AppServiceProvider extends ServiceProvider
     {
         Blade::directive('isLinkActive', function ($routeName) {
             return "<?= Route::currentRouteName() == $routeName ? 'active' : ''; ?>";
+        });
+        $this->app->singleton(ProductService::class, function ($app) {
+            return new ProductService();
         });
     }
 }

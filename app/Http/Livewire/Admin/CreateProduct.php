@@ -2,10 +2,10 @@
 
 namespace App\Http\Livewire\Admin;
 
+use App\Models\AttributeSku;
 use App\Models\Category;
 use App\Models\Product;
-use App\Models\Sku;
-use Attribute;
+use App\Services\ProductService;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
@@ -13,15 +13,16 @@ use Livewire\WithFileUploads;
 
 class CreateProduct extends Component
 {
-    use LivewireAlert, WithFileUploads, LivewireAlert;
+    use LivewireAlert, WithFileUploads;
 
     public Product $product;
     public $uploads = [];
     public $variant_name = '';
-    public $variants = [];
-    public $skus = [];
+    public $variants;
+    public $skus;
     public $categories = [];
     public $editing = false;
+    private $productService;
 
     protected $rules = [
         'product.name' => 'required|min:3',
@@ -39,13 +40,17 @@ class CreateProduct extends Component
         $this->editing = $this->product->id == null ? false : true;
         if ($this->editing) {
             $this->product->load('attributes', 'skus', 'attributes.skus', 'skus.variants', 'category');
-            $this->variants = $this->product->attributes;
-            $this->skus = $this->product->skus;
+            $this->variants = collect($this->product->attributes);
+            $this->skus = collect($this->product->skus);
             $this->emit('setEditorData', array(
                 'description' => $this->product->descrtiption,
                 'additional_info' => $this->product->additional_info,
             ));
+        } else {
+            $this->skus = collect();
+            $this->variants = collect();
         }
+        // $this->productService = $productService;
     }
 
     public function render()
@@ -55,7 +60,7 @@ class CreateProduct extends Component
             ->section('section');
     }
 
-    public function save()
+    public function save(ProductService $productService)
     {
         $this->validate();
         $message = 'Hurray! Product has beed added successfully.';
@@ -63,61 +68,15 @@ class CreateProduct extends Component
             $message = 'Hurray! Product has beed edited successfully.';
         }
         $this->product->save();
-        if (!empty($this->variants)) {
-            $attributes_sku = [];
-            foreach ($this->variants as $key => $variant) {
-                $this->variants[$key]['product_id'] = $this->product->id;
-            }
-            $this->product->attributes()->upsert(
-                $this->variants,
-                ['product_id', 'name'],
-                ['name'],
-            );
+        $result = $productService->createOrUpdateProduct(
+            $this->product,
+            $this->variants,
+            $this->skus,
+        );
+        if (!$result) {
+            $this->alert('warning', 'Error updating the product details. Please try again.');
+            return;
         }
-        $attributes = $this->product->attributes()->get();
-        $attributes_sku = [];
-        if (!empty($this->skus)) {
-            $skus = [];
-            foreach ($this->skus as $key => $sku) {
-                $this->skus[$key]['product_id'] = $this->product->id;
-                $this->skus[$key]['sku'] = $sku['sku_id'];
-                array_push(
-                    $skus,
-                    array(
-                        'product_id' => $this->product->id,
-                        'sku' => $sku['sku_id'],
-                        'amount' => $sku['amount'],
-                        'stock' => $sku['stock'] ?? null,
-                    ),
-                );
-            }
-            $this->product->skus()->upsert(
-                $skus,
-                ['product_id', 'sku'],
-                ['amount', 'stock'],
-            );
-            $skus = $this->product->skus()->get();
-            foreach ($this->skus as $key => $sku) {
-                foreach ($sku['variants'] as $variant) {
-                    $attribute_id = $attributes->first(fn ($item) => $item->name == $variant['name'])->id;
-                    $sku_id = $skus->first(fn ($item) => $item->sku = $sku['sku_id'])->id;
-                    array_push(
-                        $attributes_sku,
-                        array(
-                            'attribute_id' => $attribute_id,
-                            'sku_id' => $sku_id,
-                            'value' => $variant['value'],
-                        ),
-                    );
-                }
-            }
-            $this->product->attributeSku()->upsert(
-                $attributes_sku,
-                ['attribute_id', 'sku_id'],
-                ['value'],
-            );
-        }
-
         $this->alert('success', $message);
         if ($this->editing) {
             return redirect()->route('admin.productList');
@@ -126,9 +85,15 @@ class CreateProduct extends Component
         }
     }
 
-    public function skuAdded($sku)
+    public function skuAdded($details)
     {
-        array_push($this->skus, $sku);
+        if ($details['editing'] == false) {
+            $this->skus->push($details['sku']);
+        } else {
+            $this->skus = $this->skus->replace([
+                $details['index'] => $details['sku']
+            ]);
+        }
     }
 
     public function create_variant()
@@ -137,18 +102,32 @@ class CreateProduct extends Component
             $this->alert('warning', 'Enter a variant name!');
             return;
         }
-        array_push($this->variants, array(
+        $this->variants->push([
             'name' => $this->variant_name,
-        ));
+        ]);
     }
 
     public function create_default_variants()
     {
-        array_push($this->variants, array(
+        $this->variants->push([
             'name' => 'Color',
-        ));
-        array_push($this->variants, array(
+        ]);
+        $this->variants->push([
             'name' => 'Size',
-        ));
+        ]);
+    }
+
+    public function open_sku_modal($index)
+    {
+        if (!$this->product->name) {
+            $this->alert('warning', 'Please enter the product name before creating SKU.');
+            return;
+        }
+        $sku = $index >= 0 ? $this->skus[$index] : [];
+        $this->emit(
+            'openModal',
+            'admin.modal.create-sku',
+            ['variants' => $this->variants, 'name' => $this->product->name, 'sku' => $sku, 'index' => $index]
+        );
     }
 }

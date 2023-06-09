@@ -73,8 +73,8 @@
                                 <p class="text-center text-gray-600">No SKU added.</p>
                             </div>
                         @endif
-                        @foreach ($skus as $sku)
-                            <div class="border p-4 mb-4 flex">
+                        @foreach ($skus as $index => $sku)
+                            <div class="border border-dashed p-4 mb-4 flex">
                                 <div class="flex flex-col flex-1">
                                     <p class="text-zinc-600"><strong>{{ $sku['sku'] }}</strong></p>
                                     <p>
@@ -84,7 +84,7 @@
                                         @endforeach
                                     </p>
                                 </div>
-                                <div class="flex flex-col">
+                                <div class="flex flex-col mx-5">
                                     <p class="text-zinc-600"><strong>₹ {{ $sku['amount'] }}</strong></p>
                                     @if (isset($sku['stock']))
                                         <p>{{ $sku['stock'] }} stock</p>
@@ -92,10 +92,19 @@
                                         <p>Stock unlimited</p>
                                     @endif
                                 </div>
+                                <div class="flex">
+                                    <button type="button" class="w-8 h-8 bg-blue-600 text-white p-2 rounded mr-4"
+                                        wire:click="open_sku_modal({{ $index }})">
+                                        <x-icons.edit />
+                                    </button>
+                                    <button type="button" class="w-8 h-8 bg-red-600 text-white p-2 rounded">
+                                        <x-icons.delete />
+                                    </button>
+                                </div>
                             </div>
                         @endforeach
                         <button type="button" class="bg-orange-500 px-4 py-2 rounded text-white"
-                            wire:click="$emit('openModal', 'admin.modal.create-sku', {{ json_encode(['variants' => $variants]) }})">Create
+                            wire:click="open_sku_modal">Create
                             New
                             SKU</button>
                     </div>

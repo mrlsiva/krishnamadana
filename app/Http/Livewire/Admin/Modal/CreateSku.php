@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Admin\Modal;
 
+use Illuminate\Support\Facades\Log;
 use LivewireUI\Modal\ModalComponent;
 use Illuminate\Support\Str;
 
@@ -9,14 +10,19 @@ class CreateSku extends ModalComponent
 {
 
     public array $variants;
-    public $price;
-    public $stock;
-    public $sku = array();
+    public $sku;
+    public $index;
+    public $editing;
 
     public function mount()
     {
-        $this->sku['sku'] = Str::sku('Name');
-        $this->sku['variants'] = $this->variants;
+        if (!isset($this->sku['sku'])) {
+            $this->sku['sku'] = Str::sku($this->name);
+            $this->sku['variants'] = $this->variants;
+            $this->editing = false;
+        } else {
+            $this->editing = true;
+        }
     }
 
     public function render()
@@ -31,7 +37,7 @@ class CreateSku extends ModalComponent
 
     public function create_sku()
     {
-        $this->emit('skuAdded', $this->sku);
+        $this->emit('skuAdded', ['sku' => $this->sku, 'editing' => $this->editing, 'index' => $this->index]);
         $this->closeModal();
     }
 }
