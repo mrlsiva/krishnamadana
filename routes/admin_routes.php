@@ -4,6 +4,8 @@ use App\Http\Controllers\Admin\Auth\AuthController;
 use App\Http\Livewire\Admin\CategoryList;
 use App\Http\Livewire\Admin\CreateCategory;
 use App\Http\Livewire\Admin\CreateProduct;
+use App\Http\Livewire\Admin\CreateProductVariation;
+use App\Http\Livewire\Admin\CreateVariationOption;
 use App\Http\Livewire\Admin\ProductList;
 use Illuminate\Support\Facades\Route;
 
@@ -12,6 +14,8 @@ Route::name('admin.')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
     Route::middleware(['auth:admin'])->group(function () {
         Route::get('/dashboard', ProductList::class)->name('dashboard');
+        Route::get('/variation', CreateProductVariation::class)->name('createProductVariation');
+        Route::get('/variation/option', CreateVariationOption::class)->name('createVariationOption');
         Route::get('/product', ProductList::class)->name('productList');
         Route::get('/product/create', CreateProduct::class)->name('createProduct');
         Route::get('/product/{product}/edit', CreateProduct::class)->name('editProduct');

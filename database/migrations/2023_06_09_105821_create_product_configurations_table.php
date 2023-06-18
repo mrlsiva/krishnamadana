@@ -13,15 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('skus', function (Blueprint $table) {
+        Schema::create('product_configurations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_id')->constrained()->cascadeOnDelete();
-            $table->string('sku')->comment('Alpha-numeric SKU code of the product.');
-            $table->decimal('amount', 8, 2);
-            $table->integer('stock')->nullable();
+            $table->foreignId('product_item_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('variation_option_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
-            $table->softDeletes();
-            $table->unique(['product_id', 'sku']);
+            $table->unique(['product_item_id', 'variation_option_id'], 'unique_item_option');
         });
     }
 
@@ -32,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('skus');
+        Schema::dropIfExists('product_configurations');
     }
 };

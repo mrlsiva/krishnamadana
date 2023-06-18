@@ -2,14 +2,21 @@
 
 namespace App\Http\Livewire\Admin;
 
-use App\Models\AttributeSku;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\ProductItem;
+use App\Models\ProductMeta;
+use App\Models\Variation;
+use App\Models\VariationOption;
 use App\Services\ProductService;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\WithFileUploads;
+use Illuminate\Support\Str;
+use PgSql\Lob;
 
 class CreateProduct extends Component
 {
@@ -18,17 +25,25 @@ class CreateProduct extends Component
     public Product $product;
     public $uploads = [];
     public $variant_name = '';
+    public $variation_id = '';
+    public $variations;
+    public $options = [];
     public $variants;
-    public $skus;
+    // public $attributesSku;
+    // public $skus;
     public $categories = [];
     public $editing = false;
-    private $productService;
+    public $items;
+    public $meta;
 
     protected $rules = [
         'product.name' => 'required|min:3',
         'product.description' => 'required',
         'product.additional_info' => 'nullable',
         'product.category_id' => 'required',
+        'meta.title' => 'nullable',
+        'meta.keywords' => 'nullable',
+        'meta.description' => 'nullable',
     ];
 
     protected $listeners = ['skuAdded'];
@@ -38,29 +53,38 @@ class CreateProduct extends Component
         $this->categories = Category::all();
         $this->product = empty($product) ? new Product() : $product;
         $this->editing = $this->product->id == null ? false : true;
+        $this->variations = Variation::with('options')->get();
         if ($this->editing) {
-            $this->product->load('attributes', 'skus', 'attributes.skus', 'skus.variants', 'category');
-            $this->variants = collect($this->product->attributes);
-            $this->skus = collect($this->product->skus);
+            $this->product->load('category', 'meta', 'items', 'items.configurations', 'items.configurations.option');
+            // $this->variants = $this->product->attributes;
+            $this->items = $this->product->items()->get();
+            $this->meta = $this->product->meta;
             $this->emit('setEditorData', array(
                 'description' => $this->product->descrtiption,
                 'additional_info' => $this->product->additional_info,
             ));
         } else {
-            $this->skus = collect();
-            $this->variants = collect();
+            // $this->skus = collect();
+            // $this->attributesSku = collect();
+            $this->items = collect();
+            $this->meta = collect();
         }
-        // $this->productService = $productService;
+        $this->options = VariationOption::with('variation')->get();
     }
 
     public function render()
     {
-        return view('livewire.admin.create-product')
+        if (!empty($this->variation_id)) {
+            $this->options = VariationOption::where('variation_id', $this->variation_id)->get();
+        }
+        return view('livewire.admin.create-product', [
+            'variations' => Variation::with('options')->get(),
+        ])
             ->extends('admin.dashboard')
             ->section('section');
     }
 
-    public function save(ProductService $productService)
+    public function save()
     {
         $this->validate();
         $message = 'Hurray! Product has beed added successfully.';
@@ -68,14 +92,19 @@ class CreateProduct extends Component
             $message = 'Hurray! Product has beed edited successfully.';
         }
         $this->product->save();
-        $result = $productService->createOrUpdateProduct(
-            $this->product,
-            $this->variants,
-            $this->skus,
+        ProductMeta::updateOrCreate(
+            ['product_id' => $this->product->id],
+            [
+                'title' => $this->meta['title'],
+                'keywords' => $this->meta['keywords'],
+                'description' => $this->meta['description'],
+            ]
         );
-        if (!$result) {
-            $this->alert('warning', 'Error updating the product details. Please try again.');
-            return;
+        foreach ($this->uploads as $upload) {
+            $path = Storage::path('/livewire-tmp/' . $upload['fileRef']->getFileName());
+            $this->product->addMedia($path)
+                ->withResponsiveImages()
+                ->toMediaCollection('products');
         }
         $this->alert('success', $message);
         if ($this->editing) {
@@ -87,13 +116,30 @@ class CreateProduct extends Component
 
     public function skuAdded($details)
     {
-        if ($details['editing'] == false) {
-            $this->skus->push($details['sku']);
-        } else {
-            $this->skus = $this->skus->replace([
-                $details['index'] => $details['sku']
-            ]);
+        if (empty($this->product->id)) {
+            $this->product->save();
         }
+        $item = $this->product->items()->create([
+            'sku' => $details['item']['sku'],
+            'amount' => $details['item']['amount'],
+            'stock' => $details['item']['stock'],
+        ]);
+        $variants = [];
+        foreach ($details['selected_variants'] as $variant) {
+            array_push(
+                $variants,
+                ['variation_option_id' => $variant]
+            );
+        }
+        $item->configurations()->createMany($variants);
+        $this->items = $this->product->items()->get();
+        // if ($details['editing'] == false) {
+        //     $this->items->push($details['sku']);
+        // } else {
+        //     $this->items = $this->items->replace([
+        //         $details['index'] => $details['sku']
+        //     ]);
+        // }
     }
 
     public function create_variant()
@@ -102,32 +148,69 @@ class CreateProduct extends Component
             $this->alert('warning', 'Enter a variant name!');
             return;
         }
-        $this->variants->push([
-            'name' => $this->variant_name,
-        ]);
+        // $variant = new Attribute();
+        // $variant->name = $this->variant->name;
+        // $this->variants->push($variant);
     }
 
-    public function create_default_variants()
-    {
-        $this->variants->push([
-            'name' => 'Color',
-        ]);
-        $this->variants->push([
-            'name' => 'Size',
-        ]);
-    }
+    // public function create_default_variants()
+    // {
+    //     $variant = new Variation();
+    //     $variant->name = 'Color';
+    //     $this->variants->push($variant);
+    //     $variant = new Variation();
+    //     $variant->name = 'Size';
+    //     $this->variants->push($variant);
+    // }
 
-    public function open_sku_modal($index)
+    public function open_sku_modal($id)
     {
-        if (!$this->product->name) {
-            $this->alert('warning', 'Please enter the product name before creating SKU.');
+        if (empty($this->product->name)) {
+            $this->alert('warning', 'Please enter the product name to continue.');
             return;
         }
-        $sku = $index >= 0 ? $this->skus[$index] : [];
+        if (empty($this->product->category_id)) {
+            $this->alert('warning', 'Please select a category to continue.');
+            return;
+        }
+        $params = [
+            'name' => $this->product->name,
+            //     'variants' => $this->variants,
+        ];
+        if (isset($id)) {
+            $params['sku'] = $id;
+        }
         $this->emit(
             'openModal',
-            'admin.modal.create-sku',
-            ['variants' => $this->variants, 'name' => $this->product->name, 'sku' => $sku, 'index' => $index]
+            'admin.modal.create-product-item',
+            $params,
         );
+    }
+
+    public function create_possible_variations()
+    {
+        if (empty($this->product->name)) {
+            $this->alert('warning', 'Please enter the product name to continue.');
+            return;
+        }
+        if (empty($this->product->category_id)) {
+            $this->alert('warning', 'Please select a category to continue.');
+            return;
+        }
+        $combinations = DB::select(DB::raw('SELECT a.variation_id as a_variation_id, b.variation_id as b_variation_id, a.id as a_id, b.id as b_id, a.value as a_value, b.value as b_value FROM `variation_options` a cross join `variation_options` b where a.variation_id > b.variation_id order by a.id'));
+        if (empty($this->product->id)) {
+            $this->product->save();
+        }
+        foreach ($combinations as $combination) {
+            $item = $this->product->items()->create([
+                'sku' => Str::sku($this->product->name),
+                'amount' => 0,
+            ]);
+            $item->configurations()->createMany([
+                ['variation_option_id' => $combination->a_variation_id],
+                ['variation_option_id' => $combination->b_variation_id],
+            ]);
+            $this->items = $this->product->items()->get();
+        }
     }
 }

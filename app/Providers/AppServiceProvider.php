@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Services\ProductService;
+use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Log;
@@ -33,6 +34,12 @@ class AppServiceProvider extends ServiceProvider
         });
         $this->app->singleton(ProductService::class, function ($app) {
             return new ProductService();
+        });
+
+        Collection::macro('byVariationType', function ($variation) {
+            return $this->filter(function ($value) use ($variation) {
+                return $value->variation->name == $variation;
+            });
         });
     }
 }

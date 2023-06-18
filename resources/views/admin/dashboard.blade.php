@@ -37,6 +37,12 @@
                 <li>
                     <a href="">Create Collection</a>
                 </li>
+                {{-- <li>
+                    <a href="{{ route('admin.createProductVariation') }}" class="@isLinkActive('admin.createProductVariation')">Product Variations</a>
+                </li> --}}
+                <li>
+                    <a href="{{ route('admin.createVariationOption') }}" class="@isLinkActive('admin.createVariationOption')">Variation Options</a>
+                </li>
             </ul>
         </nav>
         <div class="page-content flex-1">

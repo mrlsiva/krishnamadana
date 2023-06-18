@@ -5,22 +5,21 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Attribute extends Model
+class Variation extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'product_id',
         'name'
     ];
 
-    public function product()
+    public function category()
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(ProductCategory::class);
     }
 
-    public function skus()
+    public function options()
     {
-        return $this->hasMany(AttributeSku::class);
+        return $this->hasMany(VariationOption::class);
     }
 }

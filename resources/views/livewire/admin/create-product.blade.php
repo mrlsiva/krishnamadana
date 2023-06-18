@@ -7,9 +7,9 @@
             <div class="flex flex-col basis-3/4 mr-4">
                 <div class="bg-white shadow-lg p-4 mb-8">
                     <div class="relative mb-4">
-                        <label for="categoryname" class="label">Product Title</label>
+                        <label for="categoryname" class="label">Product Name</label>
                         <input name="name" id="categoryname" type="text" class="peer input"
-                            placeholder="Enter category name" wire:model="product.name" />
+                            placeholder="Enter product name" wire:model="product.name" />
                         @error('product.name')
                             <span class="error">{{ $message }}</span>
                         @enderror
@@ -31,9 +31,6 @@
                                 <div class="flex flex-col relative mx-2 my-4">
                                     <img src="{{ $upl['src'] }}" alt=""
                                         class="w-[200px] h-[200px] object-cover">
-                                    {{-- <div style="width: 200px;" class="overflow-hidden text-ellipsis">
-                                        {{ $upl['fileName'] }}
-                                    </div> --}}
                                     @if ($upl['progress'] < 100)
                                         <div
                                             class="absolute inset-0 backdrop w-full h-full bg-slate-700/40 flex items-center justify-center">
@@ -57,84 +54,6 @@
                             <p class="font-semibold text-md text-slate-600">Click to upload</p>
                         </div>
                         <input name="images" id="images" type="file" class="hidden" x-ref="image" multiple />
-                    </div>
-                </div>
-                <div class="bg-white shadow-lg p-4 mb-4" x-data="{ currentTab: 'sku' }">
-                    <h2 class="text-slate-600 border-b pb-2 mb-4 font-semibold text-lg">Product SKU</h2>
-                    <div class="tabs border-b">
-                        <button type="button" class="pb-4 mr-4 text-blue-500" @click="currentTab = 'sku'"
-                            :class="currentTab == 'sku' ? 'border-b border-blue-500' : ''">Add SKU</button>
-                        <button type="button" class="pb-4 text-blue-500" @click="currentTab = 'variant'"
-                            :class="currentTab == 'variant' ? 'border-b border-blue-500' : ''">Add Variant</button>
-                    </div>
-                    <div class="tab-content pt-4" x-show="currentTab == 'sku'">
-                        @if (sizeof($skus) == 0)
-                            <div class="border border-dashed p-4 mb-4">
-                                <p class="text-center text-gray-600">No SKU added.</p>
-                            </div>
-                        @endif
-                        @foreach ($skus as $index => $sku)
-                            <div class="border border-dashed p-4 mb-4 flex">
-                                <div class="flex flex-col flex-1">
-                                    <p class="text-zinc-600"><strong>{{ $sku['sku'] }}</strong></p>
-                                    <p>
-                                        @foreach ($sku['variants'] as $variant)
-                                            {{ $loop->first ? '' : ', ' }}
-                                            <span class="nice">{{ $variant['value'] }}</span>
-                                        @endforeach
-                                    </p>
-                                </div>
-                                <div class="flex flex-col mx-5">
-                                    <p class="text-zinc-600"><strong>₹ {{ $sku['amount'] }}</strong></p>
-                                    @if (isset($sku['stock']))
-                                        <p>{{ $sku['stock'] }} stock</p>
-                                    @else
-                                        <p>Stock unlimited</p>
-                                    @endif
-                                </div>
-                                <div class="flex">
-                                    <button type="button" class="w-8 h-8 bg-blue-600 text-white p-2 rounded mr-4"
-                                        wire:click="open_sku_modal({{ $index }})">
-                                        <x-icons.edit />
-                                    </button>
-                                    <button type="button" class="w-8 h-8 bg-red-600 text-white p-2 rounded">
-                                        <x-icons.delete />
-                                    </button>
-                                </div>
-                            </div>
-                        @endforeach
-                        <button type="button" class="bg-orange-500 px-4 py-2 rounded text-white"
-                            wire:click="open_sku_modal">Create
-                            New
-                            SKU</button>
-                    </div>
-                    <div class="tab-content pt-4" x-show="currentTab == 'variant'">
-                        @if (sizeof($variants) == 0)
-                            <div class="border border-dashed p-4 mb-4">
-                                <p class="text-center text-gray-600">No Variants added.</p>
-                            </div>
-                        @endif
-                        @foreach ($variants as $variant)
-                            <div class="border border-dashed p-4 mb-4 flex items-center justify-between">
-                                <div class="font-bold">{{ $variant['name'] }}</div>
-                                <button type="button">
-                                    <x-icons.delete />
-                                </button>
-                            </div>
-                        @endforeach
-                        <div class="relative mb-4">
-                            <label for="categoryname" class="label">Add New Variant</label>
-                            <input name="description" id="categoryname" type="text" class="peer input"
-                                placeholder="Enter variant name. (eg. Size, Color)" wire:model="title"
-                                wire:model="variant_name" />
-                        </div>
-                        <button type="button" class="bg-orange-500 px-4 py-2 rounded text-white"
-                            wire:click="create_variant">Add Variant</button>
-                        @if (sizeof($variants) == 0)
-                            <button type="button" class="bg-orange-800 ms-4 px-4 py-2 rounded text-white"
-                                wire:click="create_default_variants">Create
-                                Default Variants</button>
-                        @endif
                     </div>
                 </div>
                 <div class="bg-white shadow-lg mb-4" x-data="{ currentTab: 'general' }">
@@ -161,30 +80,134 @@
                             <div class="relative mb-4">
                                 <label for="stocks" class="label">Meta Title</label>
                                 <input name="stocks" id="stocks" type="text" class="peer input"
-                                    placeholder="Stock count" wire:model="title" />
-                                @error('name')
+                                    placeholder="Stock count" wire:model="meta.title" />
+                                @error('meta.title')
                                     <span class="error">{{ $message }}</span>
                                 @enderror
                             </div>
                             <div class="relative mb-4 ml-4 flex-1">
                                 <label for="stocks" class="label">Meta Keywords</label>
                                 <input name="stocks" id="stocks" type="text" class="peer input"
-                                    placeholder="Stock count" wire:model="title" />
-                                @error('name')
+                                    placeholder="Stock count" wire:model="meta.keywords" />
+                                @error('meta.keywords')
                                     <span class="error">{{ $message }}</span>
                                 @enderror
                             </div>
                             <div class="relative mb-4 basis-full flex-1">
                                 <label for="stocks" class="label">Meta Description</label>
                                 <textarea name="stocks" id="stocks" type="text" class="peer input" placeholder="Stock count"
-                                    wire:model="title"></textarea>
-                                @error('name')
+                                    wire:model="meta.description"></textarea>
+                                @error('meta.description')
                                     <span class="error">{{ $message }}</span>
                                 @enderror
                             </div>
                         </div>
                     </div>
                 </div>
+                <div class="bg-white shadow-lg p-4 mb-4">
+                    <h2 class="text-slate-600 border-b pb-2 mb-4 font-semibold text-lg">Product Variations</h2>
+
+                    <div class="tab-content pt-4">
+                        @if (empty($items->count()))
+                            <div class="border border-dashed p-4 mb-4">
+                                <p class="text-center text-gray-600">No Product Variations added.</p>
+                            </div>
+                        @endif
+                        @foreach ($items as $index => $item)
+                            <div class="flex flex-col mb-4">
+                                <div class="font-bold mb-2">SKU: {{ $item->sku }}</div>
+                                <div class="flex border p-2">
+                                    <div class="flex font-bold flex-1">
+                                        @foreach ($item->configurations as $configuration)
+                                            {{ $configuration->option->value }}@if ($loop->first)
+                                                ,
+                                            @endif
+                                        @endforeach
+                                    </div>
+                                    <div class="flex flex-col flex-1">
+                                        ₹ {{ $item->amount }}<br />
+                                        Stock: {{ $item->stock ?? 'NA' }}
+                                    </div>
+                                    <div class="flex">
+                                        <button class="w-12 text-red-500">
+                                            <x-icons.delete />
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                        {{-- <div class="border border-dashed p-4 mb-4 flex">
+                                <div class="flex flex-col flex-1">
+                                    <p class="text-zinc-600"><strong>{{ $sku['sku'] }}</strong></p>
+                                    @php
+                                        $variants = $this->attributesSku->where(fn($item) => $item['sku_id'] == $sku['id'] || $item['sku'] == $sku['sku'])->all();
+                                    @endphp
+                                    <p>
+                                        @foreach ($variants as $variant)
+                                            {{ $loop->first ? '' : ', ' }}
+                                            <span class="nice">{{ $variant['value'] }}</span>
+                                        @endforeach
+                                    </p>
+                                </div>
+                                <div class="flex flex-col mx-5">
+                                    <p class="text-zinc-600"><strong>₹ {{ $sku['amount'] }}</strong></p>
+                                    @if (isset($sku['stock']))
+                                        <p>{{ $sku['stock'] }} stock</p>
+                                    @else
+                                        <p>Stock unlimited</p>
+                                    @endif
+                                </div>
+                                <div class="flex">
+                                    <button type="button" class="w-8 h-8 bg-blue-600 text-white p-2 rounded mr-4"
+                                        wire:click="open_sku_modal({{ $sku['id'] }})">
+                                        <x-icons.edit />
+                                    </button>
+                                    <button type="button" class="w-8 h-8 bg-red-600 text-white p-2 rounded">
+                                        <x-icons.delete />
+                                    </button>
+                                </div>
+                            </div>
+                        @endforeach --}}
+                        <div class="flex items-center">
+                            <button type="button" class="bg-orange-500 px-4 py-2 rounded text-white"
+                                wire:click="open_sku_modal(null)">Create
+                                New
+                                Variation</button>
+                            <span class="inline-block mx-5">or</span>
+                            <button class="text-orange-500 underline" wire:click="create_possible_variations">Generate
+                                All Possible Variation</button>
+                        </div>
+                    </div>
+                    {{-- <div class="tab-content pt-4" x-show="currentTab == 'variant'">
+                        @if (sizeof($variants) == 0)
+                            <div class="border border-dashed p-4 mb-4">
+                                <p class="text-center text-gray-600">No Variants added.</p>
+                            </div>
+                        @endif
+                        @foreach ($variants as $variant)
+                            <div class="border border-dashed p-4 mb-4 flex items-center justify-between">
+                                <div class="font-bold">{{ $variant['name'] }}</div>
+                                <button type="button">
+                                    <x-icons.delete />
+                                </button>
+                            </div>
+                        @endforeach
+                        <div class="relative mb-4">
+                            <label for="categoryname" class="label">Add New Variant</label>
+                            <input name="description" id="categoryname" type="text" class="peer input"
+                                placeholder="Enter variant name. (eg. Size, Color)" wire:model="title"
+                                wire:model="variant_name" />
+                        </div>
+                        <button type="button" class="bg-orange-500 px-4 py-2 rounded text-white"
+                            wire:click="create_variant">Add Variant</button>
+                        @if (sizeof($variants) == 0)
+                            <button type="button" class="bg-orange-800 ms-4 px-4 py-2 rounded text-white"
+                                wire:click="create_default_variants">Create
+                                Default Variants</button>
+                        @endif
+                    </div> --}}
+                </div>
+
                 <div class="flex items-center justify-end">
                     <button class="primary-button">Submit</button>
                 </div>

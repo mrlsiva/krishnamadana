@@ -4,24 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Product extends Model
+class Product extends Model implements HasMedia
 {
-    use HasFactory;
+    use HasFactory, InteractsWithMedia;
 
     public function meta()
     {
         return $this->hasOne(ProductMeta::class);
-    }
-
-    public function attributes()
-    {
-        return $this->hasMany(Attribute::class);
-    }
-
-    public function skus()
-    {
-        return $this->hasMany(Sku::class);
     }
 
     public function category()
@@ -32,5 +24,10 @@ class Product extends Model
     public function collection()
     {
         return $this->belongsToMany(Collection::class);
+    }
+
+    public function items()
+    {
+        return $this->hasMany(ProductItem::class);
     }
 }

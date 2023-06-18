@@ -13,13 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('attribute_skus', function (Blueprint $table) {
+        Schema::create('variations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('attribute_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('sku_id')->constrained()->cascadeOnDelete();
-            $table->string('value');
+            $table->string('name');
+            $table->foreignId('category_id')->nullable()->constrained()->cascadeOnUpdate()->nullOnDelete();
             $table->timestamps();
-            $table->index(['attribute_id', 'sku_id']);
+            $table->unique(['category_id', 'name']);
         });
     }
 
@@ -30,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('attribute_skus');
+        Schema::dropIfExists('variations');
     }
 };
