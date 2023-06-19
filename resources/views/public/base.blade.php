@@ -16,5 +16,6 @@
     <x-public.common.footer />
     @livewireScripts()
 </body>
+@yield('scripts')
 
 </html>

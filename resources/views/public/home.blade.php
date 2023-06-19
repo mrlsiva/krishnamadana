@@ -7,7 +7,7 @@
 @section('main')
     <x-public.home.carousel />
     <livewire:public.home.show-categories />
-    <x-public.home.best-sellers />
+    <livewire:public.home.best-sellers />
     <x-public.home.banner />
     <x-public.home.our-promises />
 @endsection

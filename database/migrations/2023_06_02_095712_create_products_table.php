@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description')->nullable();
+            $table->string('slug')->unique();
             $table->enum('status', array('Published', 'Draft'))->default('Draft');
             $table->enum('visibility', array('Public', 'Hidden'))->default('Public');
             $table->foreignId('category_id')->constrained();
