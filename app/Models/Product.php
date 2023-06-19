@@ -11,6 +11,17 @@ class Product extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia;
 
+    protected $fillable = [
+        'name',
+        'description',
+        'status',
+        'visibility',
+        'category_id',
+        'additional_info',
+        'display_price',
+        'has_multiple_options'
+    ];
+
     public function meta()
     {
         return $this->hasOne(ProductMeta::class);

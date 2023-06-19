@@ -35,6 +35,7 @@ class CreateProduct extends Component
     public $editing = false;
     public $items;
     public $meta;
+    public $images = [];
 
     protected $rules = [
         'product.name' => 'required|min:3',
@@ -69,6 +70,7 @@ class CreateProduct extends Component
             $this->items = collect();
             $this->meta = collect();
         }
+        $this->images = $this->product->getMedia('products');
         $this->options = VariationOption::with('variation')->get();
     }
 
@@ -91,15 +93,34 @@ class CreateProduct extends Component
         if ($this->editing) {
             $message = 'Hurray! Product has beed edited successfully.';
         }
+        $has_multiple_options = false;
+
+        $items = $this->product->items()->get();
+        $min_price = $items->min('amount');
+        $max_price = $items->max('amount');
+        $display_price = '';
+        if ($min_price == $max_price) {
+            $display_price = '' . $min_price;
+        } else {
+            $display_price = $min_price . ' - ' . $max_price;
+        }
+        if ($items->count() > 1) {
+            $has_multiple_options = true;
+        }
+        $this->product->display_price = $display_price;
+        $this->product->has_multiple_options = $has_multiple_options;
         $this->product->save();
-        ProductMeta::updateOrCreate(
-            ['product_id' => $this->product->id],
-            [
-                'title' => $this->meta['title'],
-                'keywords' => $this->meta['keywords'],
-                'description' => $this->meta['description'],
-            ]
-        );
+        if (!empty($this->meta['title'])) {
+            ProductMeta::updateOrCreate(
+                ['product_id' => $this->product->id],
+                [
+                    'title' => $this->meta['title'],
+                    'keywords' => $this->meta['keywords'],
+                    'description' => $this->meta['description'],
+                ]
+            );
+        }
+
         foreach ($this->uploads as $upload) {
             $path = Storage::path('/livewire-tmp/' . $upload['fileRef']->getFileName());
             $this->product->addMedia($path)
@@ -140,6 +161,19 @@ class CreateProduct extends Component
         //         $details['index'] => $details['sku']
         //     ]);
         // }
+    }
+
+    public function remove_uploaded_image($index)
+    {
+        $this->images[$index]->delete();
+        $this->images = $this->product->getMedia('products');
+    }
+
+    public function remove_image($index)
+    {
+        $upload = $this->uploads[$index];
+        Storage::delete('/livewire-tmp/' . $upload['fileRef']->getFileName());
+        array_splice($this->uploads, $index, 1);
     }
 
     public function create_variant()

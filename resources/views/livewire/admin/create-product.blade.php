@@ -25,8 +25,16 @@
                 </div>
                 <div class="bg-white shadow-lg p-4 mb-4">
                     <h2 class="text-slate-600 border-b pb-2 mb-4 font-semibold text-lg">Product Gallery</h2>
-                    @if (sizeof($uploads) > 0)
+                    @if (sizeof($uploads) > 0 || sizeof($images) > 0)
                         <div class="flex flex-wrap">
+                            @foreach ($images as $i => $upl)
+                                <div class="flex flex-col relative mx-2 my-4">
+                                    <img src="{{ $upl->getUrl() }}" alt=""
+                                        class="w-[200px] h-[200px] object-cover">
+                                    <button type="button" class="bg-red-600 text-white px-4 py-2"
+                                        wire:click="remove_uploaded_image({{ $i }})">Delete</button>
+                                </div>
+                            @endforeach
                             @foreach ($uploads as $i => $upl)
                                 <div class="flex flex-col relative mx-2 my-4">
                                     <img src="{{ $upl['src'] }}" alt=""
@@ -37,7 +45,8 @@
                                             <p class="text-white">Uploading...</p>
                                         </div>
                                     @endif
-                                    <button type="button" class="bg-red-600 text-white px-4 py-2">Remove</button>
+                                    <button type="button" class="bg-red-600 text-white px-4 py-2"
+                                        wire:click="remove_image({{ $i }})">Remove</button>
                                 </div>
                             @endforeach
                         </div>
@@ -277,8 +286,8 @@
             var length = @this.uploads.length;
 
             fileList.forEach(function(file, index) {
-                @this.upload('uploads.' + length, file, (n) => {}, () => {}, (e) => {});
-                @this.upload('uploads.' + length + '.fileRef', file, (n) => {}, () => {}, (e) => {});
+                @this.set('uploads.' + length, file, (n) => {}, () => {}, (e) => {});
+                @this.set('uploads.' + length + '.fileRef', file, (n) => {}, () => {}, (e) => {});
                 @this.set('uploads.' + length + '.fileName', file.name);
                 @this.set('uploads.' + length + '.fileSize', file.size);
                 @this.set('uploads.' + length + '.progress', 0);

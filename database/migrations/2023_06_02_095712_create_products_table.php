@@ -21,6 +21,8 @@ return new class extends Migration
             $table->enum('visibility', array('Public', 'Hidden'))->default('Public');
             $table->foreignId('category_id')->constrained();
             $table->text('additional_info')->nullable();
+            $table->string('display_price')->nullable();
+            $table->boolean('has_multiple_options')->nullable()->default(false);
             $table->timestamps();
             $table->softDeletes();
             $table->index(['status', 'visibility']);
