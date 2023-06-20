@@ -16,6 +16,18 @@
     <div class="flex-1 px-4">
         <h2 class="text-2xl text-center text-slate-600">{{ $product->name }}</h2>
         <div class="text-slate-800">{!! $product->description !!}</div>
+        <div class="flex flex-col">
+            @foreach ($variations as $variation)
+                <p class="">{{ $variation->name }}:</p>
+                <div class="flex flex-wrap">
+                    @foreach ($variation->options as $option)
+                        <label class="px-4 py-2 border me-4">
+                            {{ $option->value }}
+                        </label>
+                    @endforeach
+                </div>
+            @endforeach
+        </div>
     </div>
 </div>
 

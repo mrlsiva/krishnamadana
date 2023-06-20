@@ -24,10 +24,10 @@ class ProductConfiguration extends Model
         return $this->hasOneThrough(
             Variation::class,
             VariationOption::class,
-            'variation_id',
+            'id',
             'id',
             'variation_option_id',
-            'id',
+            'variation_id',
         );
     }
 }
