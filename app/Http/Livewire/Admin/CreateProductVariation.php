@@ -49,7 +49,6 @@ class CreateProductVariation extends Component
             'text' => 'Deleting a variation deleting all the variations attached to a product also.',
             'onConfirmed' => 'delete_variant',
         ]);
-        Log::debug($this->delete_id);
     }
 
     public function getListeners()

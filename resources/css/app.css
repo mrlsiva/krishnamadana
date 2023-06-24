@@ -256,3 +256,8 @@ footer nav li a {
 footer .copyright {
     color: #777777;
 }
+
+.variation-input:checked + .variation-label {
+    border: 1px solid #242323;
+    color: #242323;
+}

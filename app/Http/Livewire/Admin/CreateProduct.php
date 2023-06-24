@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Admin;
 
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\ProductConfiguration;
 use App\Models\ProductItem;
 use App\Models\ProductMeta;
 use App\Models\Variation;
@@ -36,18 +37,20 @@ class CreateProduct extends Component
     public $items;
     public $meta;
     public $images = [];
+    public $delete_item_id;
 
     protected $rules = [
         'product.name' => 'required|min:3',
         'product.description' => 'required',
         'product.additional_info' => 'nullable',
         'product.category_id' => 'required',
+        // 'product.base_price' => 'nullable',
         'meta.title' => 'nullable',
         'meta.keywords' => 'nullable',
         'meta.description' => 'nullable',
     ];
 
-    protected $listeners = ['skuAdded'];
+    protected $listeners = ['skuAdded', 'delete_variant', 'create_possible_variations'];
 
     public function mount(Product $product)
     {
@@ -221,7 +224,7 @@ class CreateProduct extends Component
         );
     }
 
-    public function create_possible_variations()
+    public function open_variation_modal()
     {
         if (empty($this->product->name)) {
             $this->alert('warning', 'Please enter the product name to continue.');
@@ -231,19 +234,53 @@ class CreateProduct extends Component
             $this->alert('warning', 'Please select a category to continue.');
             return;
         }
-        $combinations = DB::select(DB::raw('SELECT a.variation_id as a_variation_id, b.variation_id as b_variation_id, a.id as a_id, b.id as b_id, a.value as a_value, b.value as b_value FROM `variation_options` a cross join `variation_options` b where a.variation_id > b.variation_id order by a.id'));
+
+        $this->emit(
+            'openModal',
+            'admin.modal.select-variations-modal',
+        );
+    }
+
+    public function create_possible_variations($data)
+    {
+        // $combinations = DB::select(DB::raw('SELECT a.variation_id as a_variation_id, b.variation_id as b_variation_id, a.id as a_id, b.id as b_id, a.value as a_value, b.value as b_value FROM `variation_options` a cross join `variation_options` b where a.variation_id > b.variation_id order by a.id'));
+
         if (empty($this->product->id)) {
             $this->product->save();
         }
+        $amount = $data['base_price'];
+        $combinations = $data['combinations'];
         foreach ($combinations as $combination) {
             $item = $this->product->items()->create([
                 'sku' => Str::sku($this->product->name),
-                'amount' => 0,
+                'amount' => $amount,
             ]);
-            $item->configurations()->createMany([
-                ['variation_option_id' => $combination->a_variation_id],
-                ['variation_option_id' => $combination->b_variation_id],
-            ]);
+            $item->configurations()->createMany($combination);
+        }
+        $this->items = $this->product->items()->get();
+    }
+
+    public function confirm_delete_item($id)
+    {
+        $this->delete_item_id = $id;
+        $this->alert('question', 'Are you sure you want to delete?', [
+            'showConfirmButton' => true,
+            'confirmButtonText' => 'Yes, Confirm',
+            'showCancelButton' => true,
+            'cancelButtonText' => 'Cancel',
+            'position' => 'center',
+            'timer' => null,
+            'text' => 'This operation can not be reverted once done. Please confirm',
+            'onConfirmed' => 'delete_variant',
+        ]);
+    }
+
+    public function delete_variant()
+    {
+        if (!empty($this->delete_item_id)) {
+            ProductConfiguration::where('product_item_id', $this->delete_item_id)->delete();
+            ProductItem::destroy($this->delete_item_id);
+            $this->delete_item_id = null;
             $this->items = $this->product->items()->get();
         }
     }

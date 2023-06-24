@@ -122,29 +122,34 @@
                                 <p class="text-center text-gray-600">No Product Variations added.</p>
                             </div>
                         @endif
-                        @foreach ($items as $index => $item)
-                            <div class="flex flex-col mb-4">
-                                <div class="font-bold mb-2">SKU: {{ $item->sku }}</div>
-                                <div class="flex border p-2">
-                                    <div class="flex font-bold flex-1">
-                                        @foreach ($item->configurations as $configuration)
-                                            {{ $configuration->option->value }}@if ($loop->first)
-                                                ,
-                                            @endif
-                                        @endforeach
-                                    </div>
-                                    <div class="flex flex-col flex-1">
-                                        ₹ {{ $item->amount }}<br />
-                                        Stock: {{ $item->stock ?? 'NA' }}
-                                    </div>
-                                    <div class="flex">
-                                        <button class="w-12 text-red-500">
-                                            <x-icons.delete />
-                                        </button>
+                        <div class="grid grid-cols-2 gap-4">
+                            @foreach ($items as $index => $item)
+                                <div class="flex flex-col mb-4">
+                                    <div class="mb-2"><strong>SKU:</strong> {{ $item->sku }}</div>
+                                    <div class="flex border p-2">
+                                        <div class="flex flex-col flex-1">
+                                            <p class="font-bold">
+                                                @foreach ($item->configurations as $configuration)
+                                                    {{ $configuration->option->value }}@if (!$loop->last)
+                                                        ,
+                                                    @endif
+                                                @endforeach
+                                            </p>
+                                            <div class="flex flex-col flex-1">
+                                                ₹ {{ $item->amount }},
+                                                Stock: {{ $item->stock ?? 'NA' }}
+                                            </div>
+                                        </div>
+                                        <div class="flex">
+                                            <button class="w-6 text-red-500" type="button"
+                                                wire:click="confirm_delete_item({{ $item->id }})">
+                                                <x-icons.delete />
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        @endforeach
+                            @endforeach
+                        </div>
                         {{-- <div class="border border-dashed p-4 mb-4 flex">
                                 <div class="flex flex-col flex-1">
                                     <p class="text-zinc-600"><strong>{{ $sku['sku'] }}</strong></p>
@@ -183,7 +188,8 @@
                                 New
                                 Variation</button>
                             <span class="inline-block mx-5">or</span>
-                            <button class="text-orange-500 underline" wire:click="create_possible_variations">Generate
+                            <button type="button" class="text-orange-500 underline"
+                                wire:click="open_variation_modal">Generate
                                 All Possible Variation</button>
                         </div>
                     </div>

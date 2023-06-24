@@ -5,12 +5,15 @@
     <form wire:submit.prevent="create_sku">
         @foreach ($variants as $variant)
             <p class="text-xl"><strong>{{ $variant->name }}</strong></p>
-            @foreach ($variant->options as $option)
-                <p class="my-2"><label class="me-2"><input type="radio" name="{{ $variant->name }}"
-                            value="{{ $option->id }}" data-variation-id="{{ $variant->id }}"
-                            wire:model="selected_variants.{{ $option->id }}">
-                        {{ $option->value }}</label></p>
-            @endforeach
+            <div class="flex flex-wrap my-2">
+                @foreach ($variant->options as $option)
+                    <label class="me-4 flex items-center"><input type="radio" name="{{ $variant->name }}"
+                            value="{{ $option->id }}" class="text-orange-500 me-2"
+                            data-variation-id="{{ $variant->id }}"
+                            wire:model="selected_variants.{{ $loop->parent->index }}">
+                        {{ $option->value }}</label>
+                @endforeach
+            </div>
         @endforeach
         <div class="flex items-center justify-between mt-4">
             <label class="basis-16 text-right font-bold mr-4">Price<span class="text-red-500">*</span></label>

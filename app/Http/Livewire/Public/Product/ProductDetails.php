@@ -13,6 +13,9 @@ class ProductDetails extends Component
 
     public Product $product;
     public $variations;
+    public $selected_item;
+    public $option_ids;
+    public $selected_variation;
 
     public function mount($slug)
     {
@@ -20,14 +23,19 @@ class ProductDetails extends Component
         // $items_id = $this->product->items->pluck('id');
         // $variations = Variation::with('option', 'variation')->whereIn('product_item_id', $items_id)->get();
         $option_id = array();
-        foreach ($this->product->items as $item) {
-            foreach ($item->configurations as $configuration) {
-                array_push($option_id, $configuration->variation_option_id);
+        if ($this->product->items->count() > 0) {
+            $this->selected_item = $this->product->items->first();
+            $this->option_ids = $this->selected_item->configurations->pluck('variation_option_id');
+            foreach ($this->product->items as $index => $item) {
+                foreach ($item->configurations as $configuration) {
+                    array_push($option_id, $configuration->variation_option_id);
+                    // $this->selected_variation[$index] = $configuration->variation_option_id;
+                }
             }
+            $this->variations = Variation::whereHas('options', fn ($query) => $query->whereIn('id', $option_id))
+                ->with(['options' => fn ($query) => $query->whereIn('id', $option_id)])
+                ->get();
         }
-        $this->variations = Variation::whereHas('options', fn ($query) => $query->whereIn('id', $option_id))
-            ->with(['options' => fn ($query) => $query->whereIn('id', $option_id)])
-            ->get();
     }
 
     public function render()
@@ -35,5 +43,18 @@ class ProductDetails extends Component
         return view('livewire.public.product.product-details')
             ->extends('public.base')
             ->section('main');
+    }
+
+    public function on_variant_change($index, $id)
+    {
+        $this->option_ids[$index] = $id;
+        $options = $this->option_ids->toArray();
+        foreach ($this->product->items as $item) {
+            $ids = $item->configurations->pluck('variation_option_id')->toArray();
+            if ($ids == $options) {
+                $this->selected_item = $item;
+                break;
+            }
+        }
     }
 }

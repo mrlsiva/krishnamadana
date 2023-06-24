@@ -33,7 +33,6 @@ class CreateVariationOption extends Component
 
     public function add_option()
     {
-        Log::debug($this->variation_id);
         $this->validate();
         VariationOption::create([
             'variation_id' => $this->variation_id,

@@ -37,9 +37,9 @@
                 <li>
                     <a href="">Create Collection</a>
                 </li>
-                {{-- <li>
+                <li>
                     <a href="{{ route('admin.createProductVariation') }}" class="@isLinkActive('admin.createProductVariation')">Product Variations</a>
-                </li> --}}
+                </li>
                 <li>
                     <a href="{{ route('admin.createVariationOption') }}" class="@isLinkActive('admin.createVariationOption')">Variation Options</a>
                 </li>

@@ -13,21 +13,29 @@
             @endforeach
         </div>
     </div>
-    <div class="flex-1 px-4">
+    <div class="flex-1 px-12">
         <h2 class="text-2xl text-center text-slate-600">{{ $product->name }}</h2>
-        <div class="text-slate-800">{!! $product->description !!}</div>
-        <div class="flex flex-col">
-            @foreach ($variations as $variation)
-                <p class="">{{ $variation->name }}:</p>
-                <div class="flex flex-wrap">
+        <div class="text-slate-800 my-4">{!! $product->description !!}</div>
+        @foreach ($variations as $variation)
+            <div class="flex flex-col mb-4">
+                <p class="mb-4">{{ $variation->name }}:</p>
+                <div class="flex flex-wrap gap-y-4">
                     @foreach ($variation->options as $option)
-                        <label class="px-4 py-2 border me-4">
+                        <input type="radio" name="{{ $variation->id }}" class="hidden variation-input"
+                            id="option={{ $option->id }}" @checked($option_ids->contains($option->id))
+                            wire:change="on_variant_change({{ $loop->parent->index }}, {{ $option->id }})">
+                        <label for="option={{ $option->id }}"
+                            class="px-4 py-2 border me-4 text-slate-600 cursor-pointer variation-label select-none">
                             {{ $option->value }}
                         </label>
                     @endforeach
                 </div>
-            @endforeach
-        </div>
+            </div>
+        @endforeach
+        <div class="price border-t pt-4 text-2xl text-slate-600">Rs. {{ $selected_item->amount }}</div>
+        <button class="cta-link w-full py-3 my-4">
+            Add to Cart
+        </button>
     </div>
 </div>
 
