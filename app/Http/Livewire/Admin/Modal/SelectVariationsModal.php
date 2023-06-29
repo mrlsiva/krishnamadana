@@ -62,10 +62,11 @@ class SelectVariationsModal extends ModalComponent
         $data = [
             'base_price' => $this->base_price,
             'combinations' => $combinations,
+            'titles' => $combinations_title,
         ];
-        Log::debug($combinations_title);
-        // $this->emit('create_possible_variations', $data);
-        // $this->closeModal();
+        // Log::debug($combinations_title);
+        $this->emit('create_possible_variations', $data);
+        $this->closeModal();
     }
 
     public function calculate_variations($i, $index)

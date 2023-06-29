@@ -8,14 +8,14 @@
             <nav class="flex justify-end mx-8">
                 <a href="" class="px-4">Account</a>
                 <a href="" class="px-4">Search</a>
-                <a href="" class="px-4">Cart (0)</a>
+                <a href="{{ route('home.cart') }}" class="px-4">Cart ({{ Cart::getTotalQuantity() }})</a>
             </nav>
         </div>
     </div>
     <div class="flex w-full border-b pb-4">
         <nav class="w-full">
             <ul class="flex items-center justify-center w-full">
-                <li><a href="" class="p-4 nav-link">Home</a></li>
+                <li><a href="{{ route('home') }}" class="p-4 nav-link">Home</a></li>
                 <li class="relative" x-data="{ open: false }" @mouseover.away="open=false">
                     <a href="" class="p-4 nav-link" @mouseover="open=true">Shop</a>
                     <ul class="dropdown-menu shop-menu" x-show="open">

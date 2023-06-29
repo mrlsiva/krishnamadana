@@ -250,10 +250,12 @@ class CreateProduct extends Component
         }
         $amount = $data['base_price'];
         $combinations = $data['combinations'];
-        foreach ($combinations as $combination) {
+        $titles = $data['titles'];
+        foreach ($combinations as $index => $combination) {
             $item = $this->product->items()->create([
                 'sku' => Str::sku($this->product->name),
                 'amount' => $amount,
+                'display_name' => $titles[$index]
             ]);
             $item->configurations()->createMany($combination);
         }

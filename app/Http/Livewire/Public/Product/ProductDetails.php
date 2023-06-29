@@ -7,6 +7,7 @@ use App\Models\ProductConfiguration;
 use App\Models\Variation;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
+use Cart;
 
 class ProductDetails extends Component
 {
@@ -16,6 +17,8 @@ class ProductDetails extends Component
     public $selected_item;
     public $option_ids;
     public $selected_variation;
+
+    protected $rules = [];
 
     public function mount($slug)
     {
@@ -56,5 +59,21 @@ class ProductDetails extends Component
                 break;
             }
         }
+    }
+
+    public function add_to_cart()
+    {
+        \Cart::add(array(
+            'id' => $this->product->id,
+            'name' => $this->product->name,
+            'price' => $this->selected_item->amount,
+            'quantity' => 1,
+            'attributes' => array(
+                'selected_variant' => $this->selected_item,
+                'display_name' => $this->selected_item->display_name,
+            ),
+            'associatedModel' => $this->product
+        ));
+        return redirect()->route('home');
     }
 }

@@ -12,6 +12,25 @@
                 <img class="w-32 h-32 object-cover ms-4" src="{{ $media->original_url }}" alt="{{ $product->name }}" />
             @endforeach
         </div>
+        @unless (empty($product->additional_info))
+            <div class="mt-6">
+                <div class="collapsible border-y w-full border-gray-700" x-data="{ expanded: false }">
+                    <button class="py-8 text-gray-700 text-xl text-left w-full flex items-center justify-between"
+                        @click="expanded = !expanded">
+                        Additional Information
+                        <div class="inline-block" x-show="!expanded">
+                            <x-icons.plus />
+                        </div>
+                        <div class="inline-block" x-show="expanded">
+                            <x-icons.minus />
+                        </div>
+                    </button>
+                    <div class="pb-8" x-show="expanded" x-collapse>
+                        {!! $product->additional_info !!}
+                    </div>
+                </div>
+            </div>
+        @endunless
     </div>
     <div class="flex-1 px-12">
         <h2 class="text-2xl text-center text-slate-600">{{ $product->name }}</h2>
@@ -33,7 +52,8 @@
             </div>
         @endforeach
         <div class="price border-t pt-4 text-2xl text-slate-600">Rs. {{ $selected_item->amount }}</div>
-        <button class="cta-link w-full py-3 my-4">
+        <button type="button" class="cta-link w-full py-3 my-4" wire:click="add_to_cart" wire:target="add_to_cart"
+            wire:loading.attr="disabled">
             Add to Cart
         </button>
     </div>

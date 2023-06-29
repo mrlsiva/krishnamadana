@@ -11,7 +11,7 @@
 
 <body class="antialiased">
     <x-public.common.announcement />
-    <x-public.common.header />
+    <livewire:public.common.header />
     @yield('main')
     <x-public.common.footer />
     @livewireScripts()

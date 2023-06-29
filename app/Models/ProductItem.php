@@ -13,7 +13,8 @@ class ProductItem extends Model
         'product_id',
         'sku',
         'stock',
-        'amount'
+        'amount',
+        'display_name',
     ];
 
     public function configurations()

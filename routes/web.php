@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Livewire\Public\Category\ListCategoryProducts;
+use App\Http\Livewire\Public\Order\CartPage;
 use App\Http\Livewire\Public\Product\ProductDetails;
 use Illuminate\Support\Facades\Route;
 
@@ -21,4 +22,5 @@ Route::view('/', 'public.home')->name('home');
 Route::name('home.')->group(function () {
     Route::get('/product/{slug}', ProductDetails::class)->name('product-details');
     Route::get('/collections/{collection}', ListCategoryProducts::class)->name('collections');
+    Route::get('/cart', CartPage::class)->name('cart');
 });

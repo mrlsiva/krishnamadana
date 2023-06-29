@@ -8,6 +8,7 @@
         "php": "^8.0.2",
         "binary-cats/laravel-sku": "^0.6.0",
         "cviebrock/eloquent-sluggable": "^9.0",
+        "darryldecode/cart": "^4.2",
         "guzzlehttp/guzzle": "^7.2",
         "jantinnerezo/livewire-alert": "^2.2",
         "laravel/framework": "^9.19",
