@@ -21,12 +21,18 @@ class Checkout extends Component
     public $selected;
     public $transaction_id;
     public $notes;
+    protected RazorPayService $razorPayService;
 
     protected $listeners = ['address_added'];
 
     protected $rules = [
         'notes' => 'nullable',
     ];
+
+    public function boot(RazorPayService $razorPayService)
+    {
+        $this->razorPayService = $razorPayService;
+    }
 
     public function mount()
     {
@@ -65,7 +71,7 @@ class Checkout extends Component
         $this->selected = $id;
     }
 
-    public function continue_checkout(RazorPayService $razorPayService)
+    public function continue_checkout()
     {
         if (empty($this->selected)) {
             $this->alert('error', 'Please select a delivery address to continue checkout');
@@ -74,7 +80,7 @@ class Checkout extends Component
 
         $total = \Cart::getTotal();
         $this->transaction_id = substr(md5(uniqid(mt_rand(), true)), 0, 15);
-        $order = $razorPayService->create_order($this->transaction_id, $total, []);
+        $order = $this->razorPayService->create_order($this->transaction_id, $total, []);
         $user = auth()->user();
         $merchant_key = config('app.razorpay_keyid');
         try {
