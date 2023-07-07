@@ -40,16 +40,16 @@
                 </div>
             @endforeach
             <div class="flex items-center border-t py-4">
-                <div class="flex flex-col basis-3/5 pe-4">
+                {{-- <div class="flex flex-col basis-3/5 pe-4">
                     <p>Add Note</p>
                     <div class="">
                         <textarea name="note" id="note" cols="30" rows="3"></textarea>
                     </div>
-                </div>
-                <div class="flex basis-1/5"></div>
+            </div> --}}
+                <div class="flex basis-4/5"></div>
                 <div class="flex flex-col basis-1/5">
                     <p class="text-2xl mb-2">Total: Rs. {{ number_format(Cart::getTotal(), 2) }}</p>
-                    <button class="cta-link py-3 px-4">Checkout</button>
+                    <a href="{{ route('home.checkout') }}" class="cta-link py-3 px-4 text-center">Checkout</a>
                 </div>
             </div>
         </div>

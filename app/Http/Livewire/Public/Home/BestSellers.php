@@ -14,12 +14,11 @@ class BestSellers extends Component
 
     public function mount()
     {
-        $this->products = Product::with('media')->limit(4)->get();
+        $this->products = Product::published()->with('media')->limit(4)->get();
     }
 
     public function render()
     {
-        Log::debug($this->products);
         return view('livewire.public.home.best-sellers');
     }
 }

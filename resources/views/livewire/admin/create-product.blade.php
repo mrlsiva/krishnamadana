@@ -64,6 +64,9 @@
                         </div>
                         <input name="images" id="images" type="file" class="hidden" x-ref="image" multiple />
                     </div>
+                    @error('images')
+                        <p class="error">Upload one or more product images.</p>
+                    @enderror
                 </div>
                 <div class="bg-white shadow-lg mb-4" x-data="{ currentTab: 'general' }">
                     <div class="tabs border-b">
@@ -192,6 +195,9 @@
                                 wire:click="open_variation_modal">Generate
                                 All Possible Variation</button>
                         </div>
+                        @error('items')
+                            <p class="error mt-2">Add at least one product item.</p>
+                        @enderror
                     </div>
                     {{-- <div class="tab-content pt-4" x-show="currentTab == 'variant'">
                         @if (sizeof($variants) == 0)
@@ -234,8 +240,8 @@
                         <label for="categoryname" class="label">Status</label>
                         <select name="name" id="categoryname" type="text" class="peer input"
                             placeholder="Enter category name" wire:model="product.status">
-                            <option value="">Published</option>
-                            <option value="">Draft</option>
+                            <option value="Published">Published</option>
+                            <option value="Draft">Draft</option>
                         </select>
                         @error('name')
                             <span class="error">{{ $message }}</span>

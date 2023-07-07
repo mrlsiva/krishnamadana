@@ -11,3 +11,23 @@
     <x-public.home.banner />
     <x-public.home.our-promises />
 @endsection
+
+@section('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            new Swiper(".swiper", {
+                loop: true,
+                speed: 500,
+                direction: "horizontal",
+                autoplay: {
+                    delay: 3000,
+                },
+                effect: "fade",
+                fadeEffect: {
+                    crossFade: true,
+                },
+                init: true,
+            });
+        });
+    </script>
+@endsection

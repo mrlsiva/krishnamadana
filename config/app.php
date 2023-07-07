@@ -69,7 +69,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Asia/Kolkata',
 
     /*
     |--------------------------------------------------------------------------
@@ -212,5 +212,8 @@ return [
         // 'ExampleClass' => App\Example\ExampleClass::class,
         'Cart' => Darryldecode\Cart\Facades\CartFacade::class
     ])->toArray(),
+
+    'razorpay_keyid' => env("RAZOR_PAY_KEY"),
+    'razorpay_secret' => env("RAZOR_PAY_SECRET"),
 
 ];

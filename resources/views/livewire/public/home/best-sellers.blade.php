@@ -1,4 +1,4 @@
-<div class="flex flex-col best-sellers">
+<div class="flex flex-col best-sellers p-8">
     <h2 class="text-center text-2xl font-semibold">Best Sellers</h2>
     <div class="grid grid-cols-4 gap-8 mx-4 my-8">
         @foreach ($products as $product)

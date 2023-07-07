@@ -7,6 +7,9 @@
     <title>{{ config('app.name') }} @yield('title')</title>
     @livewireStyles()
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 </head>
 
 <body class="antialiased">
@@ -17,5 +20,6 @@
     @livewireScripts()
 </body>
 @yield('scripts')
+@livewire('livewire-ui-modal')
 
 </html>

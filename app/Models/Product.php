@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Cviebrock\EloquentSluggable\Sluggable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
@@ -51,5 +52,10 @@ class Product extends Model implements HasMedia
     public function items()
     {
         return $this->hasMany(ProductItem::class);
+    }
+
+    public function scopePublished(Builder $query)
+    {
+        $query->where('status', 'Published')->where('visibility', 'Public');
     }
 }

@@ -6,7 +6,11 @@
         </div>
         <div class="flex-1">
             <nav class="flex justify-end mx-8">
-                <a href="" class="px-4">Account</a>
+                @auth('web')
+                    <a href="{{ route('home.account') }}" class="px-4">Account</a>
+                @else
+                    <a href="{{ route('home.login') }}" class="px-4">Account</a>
+                @endauth
                 <a href="" class="px-4">Search</a>
                 <a href="{{ route('home.cart') }}" class="px-4">Cart ({{ Cart::getTotalQuantity() }})</a>
             </nav>

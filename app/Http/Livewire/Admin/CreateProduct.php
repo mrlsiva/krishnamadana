@@ -9,15 +9,12 @@ use App\Models\ProductItem;
 use App\Models\ProductMeta;
 use App\Models\Variation;
 use App\Models\VariationOption;
-use App\Services\ProductService;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Str;
-use PgSql\Lob;
 
 class CreateProduct extends Component
 {
@@ -45,9 +42,13 @@ class CreateProduct extends Component
         'product.additional_info' => 'nullable',
         'product.category_id' => 'required',
         // 'product.base_price' => 'nullable',
+        'product.status' => 'nullable',
+        'product.visibility' => 'nullable',
         'meta.title' => 'nullable',
         'meta.keywords' => 'nullable',
         'meta.description' => 'nullable',
+        // 'images' => 'required_if:product.status,Published',
+        'items' => 'required_if:product.status,Published',
     ];
 
     protected $listeners = ['skuAdded', 'delete_variant', 'create_possible_variations'];
@@ -149,13 +150,15 @@ class CreateProduct extends Component
             'stock' => $details['item']['stock'],
         ]);
         $variants = [];
-        foreach ($details['selected_variants'] as $variant) {
-            array_push(
-                $variants,
-                ['variation_option_id' => $variant]
-            );
+        if (!empty($details['selected_variants'])) {
+            foreach ($details['selected_variants'] as $variant) {
+                array_push(
+                    $variants,
+                    ['variation_option_id' => $variant]
+                );
+            }
+            $item->configurations()->createMany($variants);
         }
-        $item->configurations()->createMany($variants);
         $this->items = $this->product->items()->get();
         // if ($details['editing'] == false) {
         //     $this->items->push($details['sku']);

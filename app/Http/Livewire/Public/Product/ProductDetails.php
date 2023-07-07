@@ -74,6 +74,6 @@ class ProductDetails extends Component
             ),
             'associatedModel' => $this->product
         ));
-        return redirect()->route('home');
+        return redirect()->route('home.cart');
     }
 }

@@ -11,7 +11,8 @@ class CartPage extends Component
 {
     public function render()
     {
-        return view('livewire.public.order.cart')->extends('public.base')
+        return view('livewire.public.order.cart')
+            ->extends('public.base')
             ->section('main');
     }
 

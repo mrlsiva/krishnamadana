@@ -9,7 +9,8 @@
         </div>
         <div class="flex mt-4 items-center justify-center flex-wrap">
             @foreach ($product->media as $media)
-                <img class="w-32 h-32 object-cover ms-4" src="{{ $media->original_url }}" alt="{{ $product->name }}" />
+                <img class="w-32 h-32 object-cover ms-4 slider-thumb" src="{{ $media->original_url }}"
+                    alt="{{ $product->name }}" data-index="{{ $loop->index }}" />
             @endforeach
         </div>
         @unless (empty($product->additional_info))
@@ -62,7 +63,7 @@
 @section('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            new Swiper(".product-swiper", {
+            var swiper = new Swiper(".product-swiper", {
                 loop: false,
                 speed: 500,
                 direction: "horizontal",
@@ -71,7 +72,13 @@
                 fadeEffect: {
                     crossFade: true,
                 },
-                init: false,
+                init: true,
+            });
+            document.querySelectorAll('.slider-thumb').forEach(function(item) {
+                item.addEventListener('click', function(event) {
+                    var index = event.target.getAttribute('data-index');
+                    swiper.slideTo(+index);
+                });
             });
         });
     </script>

@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Services\ProductService;
+use App\Services\RazorPayService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Blade;
@@ -19,7 +19,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->singleton(RazorPayService::class, function ($app) {
+            return new RazorPayService();
+        });
     }
 
     /**
@@ -31,9 +33,6 @@ class AppServiceProvider extends ServiceProvider
     {
         Blade::directive('isLinkActive', function ($routeName) {
             return "<?= Route::currentRouteName() == $routeName ? 'active' : ''; ?>";
-        });
-        $this->app->singleton(ProductService::class, function ($app) {
-            return new ProductService();
         });
 
         Collection::macro('byVariationType', function ($variation) {
