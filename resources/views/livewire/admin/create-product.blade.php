@@ -251,8 +251,8 @@
                         <label for="categoryname" class="label">Visibility</label>
                         <select name="name" id="categoryname" type="text" class="peer input"
                             placeholder="Enter category name" wire:model="product.visibility">
-                            <option value="">Public</option>
-                            <option value="">Hidden</option>
+                            <option value="Public">Public</option>
+                            <option value="Hidden">Hidden</option>
                         </select>
                         @error('name')
                             <span class="error">{{ $message }}</span>
