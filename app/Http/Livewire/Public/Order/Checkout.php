@@ -74,7 +74,7 @@ class Checkout extends Component
     public function continue_checkout()
     {
         if (empty($this->selected)) {
-            $this->alert('error', 'Please select a delivery address to continue checkout');
+            $this->alert('warning', 'Please select a delivery address to continue checkout');
             return;
         }
 

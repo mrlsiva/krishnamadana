@@ -18,6 +18,7 @@
     @yield('main')
     <x-public.common.footer />
     @livewireScripts()
+    <x-livewire-alert::scripts />
 </body>
 @yield('scripts')
 @livewire('livewire-ui-modal')
