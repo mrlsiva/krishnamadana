@@ -32,7 +32,10 @@ class Checkout extends Component
     {
         $userId = auth()->user()->id;
         $this->addresses = UserAddress::with('state')->where('user_id', $userId)->get();
-        $this->selected = $this->addresses->where('is_default', true)->first()->id;
+        $address = $this->addresses->where('is_default', true)->first();
+        if ($address) {
+            $this->selected = $address->id;
+        }
     }
 
     public function render()
