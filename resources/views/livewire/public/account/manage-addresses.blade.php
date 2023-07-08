@@ -22,6 +22,12 @@
                     <p class="leading-6">{{ $address->landmark }}</p>
                     <p class="leading-6">{{ $address->city }}, {{ $address->pincode }}</p>
                     <p class="leading-6">{{ $address->state->name }}</p>
+                    <div class="flex mt-2">
+                        <button class="underline me-4 text-slate-900 text-lg"
+                            wire:click="open_address_modal({{ $address->id }})">Edit</button>
+                        <button class="underline text-red-500 text-lg"
+                            wire:click="show_confirm_alert({{ $address->id }})">Delete</button>
+                    </div>
                 </div>
             @empty
                 <p>No addresses were saved yet.</p>

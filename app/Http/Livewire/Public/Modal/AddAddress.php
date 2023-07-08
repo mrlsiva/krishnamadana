@@ -9,7 +9,7 @@ use LivewireUI\Modal\ModalComponent;
 
 class AddAddress extends ModalComponent
 {
-
+    public $address_id;
     public $states;
     public $address;
 
@@ -28,7 +28,11 @@ class AddAddress extends ModalComponent
     public function mount()
     {
         $this->states = State::all();
-        $this->address = new UserAddress();
+        if ($this->address_id == null) {
+            $this->address = new UserAddress();
+        } else {
+            $this->address = UserAddress::with('state')->find($this->address_id);
+        }
     }
 
     public function render()
@@ -49,8 +53,15 @@ class AddAddress extends ModalComponent
             UserAddress::where('user_id', $userId)->update([
                 'is_default' => false,
             ]);
+        } else {
+            $primary_addresses = UserAddress::where([
+                'user_id' => $userId,
+                'is_default' => true,
+            ])->whereNot('id', $this->address->id)->count();
+            if ($primary_addresses == 0) {
+                $this->address->is_default = true;
+            }
         }
-        $this->address->is_default = $this->address->is_default ?? false;
         $this->address->user_id = $userId;
         $this->address->save();
         $this->emit('address_added', $this->address->id);

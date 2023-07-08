@@ -21,6 +21,7 @@ class Checkout extends Component
     public $selected;
     public $transaction_id;
     public $notes;
+    public $options;
     protected RazorPayService $razorPayService;
 
     protected $listeners = ['address_added'];
@@ -78,57 +79,40 @@ class Checkout extends Component
             return;
         }
 
+        if (!empty($this->options)) {
+            $this->emit('openCheckout', $this->options);
+            return;
+        }
+
         $total = \Cart::getTotal();
         $this->transaction_id = substr(md5(uniqid(mt_rand(), true)), 0, 15);
         $order = $this->razorPayService->create_order($this->transaction_id, $total, []);
         $user = auth()->user();
         $merchant_key = config('app.razorpay_keyid');
-        try {
-            DB::beginTransaction();
 
-            $newOrder = \App\Models\Order::create([
-                'user_id' => $user->id,
-                'order_id' => $order->id,
-                'payment_id' => $this->transaction_id,
-                'amount' => $total,
-                'discount' => 0,
-                'payment_status' => 'Pending',
-                'notes' => $this->notes,
-                'user_address_id' => $this->selected,
-            ]);
-            $pending_status = Status::where('status', 'Order Received')->first();
-            foreach (\Cart::getContent() as $item) {
-                $order_item = OrderItems::create([
-                    'order_id' => $newOrder->id,
-                    'product_id' => $item->id,
-                    'product_item_id' => $item->attributes['selected_variant']['id'],
-                    'variant_name' => $item->attributes['display_name'] ?? $item->name,
-                    'price' => $item->price,
-                    'quantity' => $item->quantity,
-                ]);
-                OrderStatus::create([
-                    'order_item_id' => $order_item->id,
-                    'status_id' => $pending_status->id,
-                ]);
-            }
+        \App\Models\OrderSession::create([
+            'user_id' => $user->id,
+            'order_id' => $order->id,
+            'payment_id' => $this->transaction_id,
+            'amount' => $total,
+            'discount' => 0,
+            'payment_status' => 'Pending',
+            'notes' => $this->notes,
+            'user_address_id' => $this->selected,
+        ]);
 
-            $options = array(
-                'key' => $merchant_key,
-                'amount' => $total * 100,
-                'name' => config('app.name'),
-                'order_id' => $order->id,
-                'callback_url' => route('home.receive-confirmation', ['_token' => csrf_token()]),
-                'prefill' => array(
-                    'name' => $user->name,
-                    'email' => $user->email,
-                    'contact' => $user->mobile,
-                ),
-            );
-            DB::commit();
-            $this->emit('openCheckout', $options);
-        } catch (\Exception $e) {
-            DB::rollBack();
-            $this->alert('warning', 'Error placing your order. Please try again later.');
-        }
+        $this->options = array(
+            'key' => $merchant_key,
+            'amount' => $total * 100,
+            'name' => config('app.name'),
+            'order_id' => $order->id,
+            'callback_url' => route('home.receive-confirmation', ['_token' => csrf_token()]),
+            'prefill' => array(
+                'name' => $user->name,
+                'email' => $user->email,
+                'contact' => $user->mobile,
+            ),
+        );
+        $this->emit('openCheckout', $this->options);
     }
 }

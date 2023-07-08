@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Public\Account;
 
+use App\Models\Order;
 use App\Models\UserAddress;
 use Livewire\Component;
 
@@ -10,6 +11,7 @@ class UserAccount extends Component
 
     public $primary_address;
     public $address_count;
+    public $orders;
 
     public function mount()
     {
@@ -22,6 +24,7 @@ class UserAccount extends Component
             'user_id' => $userId,
             'is_default' => false
         ])->count();
+        $this->orders = Order::where('user_id', $userId)->get();
     }
 
     public function render()
