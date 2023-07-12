@@ -18,4 +18,14 @@ class OrderItems extends Model
         'price',
         'quantity',
     ];
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'product_id', 'id');
+    }
+
+    public function statuses()
+    {
+        return $this->hasMany(OrderStatus::class, 'order_item_id', 'id');
+    }
 }

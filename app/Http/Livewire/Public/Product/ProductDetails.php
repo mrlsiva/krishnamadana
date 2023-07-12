@@ -69,7 +69,10 @@ class ProductDetails extends Component
             'price' => $this->selected_item->amount,
             'quantity' => 1,
             'attributes' => array(
-                'selected_variant' => $this->selected_item,
+                'selected_variant' => [
+                    'id' => $this->selected_item->id,
+                    'amount' => $this->selected_item->amount,
+                ],
                 'display_name' => $this->selected_item->display_name,
             ),
             'associatedModel' => $this->product

@@ -15,6 +15,22 @@
         </div>
     @endif
 
+    @if (Session::has('loginError'))
+        <div class="bg-red-100 w-96 mx-auto mb-4 border-t-4 border-red-500 rounded-b text-red-900 px-4 py-3 shadow-md"
+            role="alert">
+            <div class="flex">
+                <div class="py-1 mr-4">
+                    <x-icons.error-alt />
+                </div>
+                <div>
+                    <p class="font-bold">Login Failed</p>
+                    <p class="text-sm">The email or password you entered is not correct. Please enter your correct
+                        credentials.</p>
+                </div>
+            </div>
+        </div>
+    @endif
+
     <form class="flex flex-col items-center justify-center" wire:submit.prevent="login">
         @csrf
         <h2 class="uppercase text-2xl tracking-widest">Login</h2>
