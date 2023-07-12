@@ -73,6 +73,8 @@ class CreateProduct extends Component
             // $this->attributesSku = collect();
             $this->items = collect();
             $this->meta = collect();
+            $this->product->status = 'Published';
+            $this->product->visibility = 'Public';
         }
         $this->images = $this->product->getMedia('products');
         $this->options = VariationOption::with('variation')->get();
