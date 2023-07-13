@@ -4,7 +4,7 @@
             <img src="{{ $category->media[0]->original_url }}" class="w-full" alt="">
             <div class="collection__content">
                 <h2>{{ $category->name }}</h2>
-                <a href="{{ route('home.collections', ['collection' => $category->slug]) }}" class="primary-link">Shop
+                <a href="{{ route('home.collections', ['slug' => $category->slug]) }}" class="primary-link">Shop
                     Now</a>
             </div>
         </div>
