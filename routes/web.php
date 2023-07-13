@@ -27,7 +27,7 @@ Route::prefix('admin')->group(base_path('routes/admin_routes.php'));
 Route::view('/', 'public.home')->name('home');
 Route::name('home.')->group(function () {
     Route::get('/product/{slug}', ProductDetails::class)->name('product-details');
-    Route::get('/collections/{collection}', ListCategoryProducts::class)->name('collections');
+    Route::get('/collections/{slug}', ListCategoryProducts::class)->name('collections');
     Route::get('/cart', CartPage::class)->name('cart');
     Route::get('/login', Login::class)->name('login');
     Route::get('/register', Register::class)->name('register');

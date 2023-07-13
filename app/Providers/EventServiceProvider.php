@@ -6,6 +6,7 @@ use App\Models\ShoppingSession;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Log;
 
@@ -30,18 +31,18 @@ class EventServiceProvider extends ServiceProvider
     public function boot()
     {
         Event::listen('cart.added', function ($item, $cart) {
-            Log::debug('Added: ' . $item['id']);
             $this->update_cart_session($item);
         });
         Event::listen('cart.updated', function ($item, $cart) {
-            Log::debug('Updated: ' . $item->id);
             $this->update_cart_session($item);
         });
         Event::listen('cart.removed', function ($id, $cart) {
-            ShoppingSession::where([
-                'user_id' => auth()->user()->id,
-                'cart_id' => $id,
-            ])->delete();
+            if (!Auth::guest()) {
+                ShoppingSession::where([
+                    'user_id' => auth()->user()->id,
+                    'cart_id' => $id,
+                ])->delete();
+            }
         });
         // Event::listen('cart.cleared', function ($cart) {
         //     ShoppingSession::where([
@@ -52,19 +53,21 @@ class EventServiceProvider extends ServiceProvider
 
     private function update_cart_session($item)
     {
-        ShoppingSession::updateOrCreate(
-            [
-                'user_id' => auth()->user()->id,
-                'cart_id' => $item['id'],
-            ],
-            [
-                'name' => $item['name'],
-                'price' => $item['price'],
-                'quantity' => $item['quantity'],
-                'attributes' => json_encode($item['attributes']),
-                'associated_model_id' => $item['id'],
-            ]
-        );
+        if (!Auth::guest()) {
+            ShoppingSession::updateOrCreate(
+                [
+                    'user_id' => auth()->user()->id,
+                    'cart_id' => $item['id'],
+                ],
+                [
+                    'name' => $item['name'],
+                    'price' => $item['price'],
+                    'quantity' => $item['quantity'],
+                    'attributes' => json_encode($item['attributes']),
+                    'associated_model_id' => $item['id'],
+                ]
+            );
+        }
     }
 
     /**
