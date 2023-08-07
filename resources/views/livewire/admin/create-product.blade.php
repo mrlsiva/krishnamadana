@@ -271,7 +271,7 @@
                         @error('product.category_id')
                             <span class="error">{{ $message }}</span>
                         @enderror
-                        <a href="{{ route('admin.createCategory') }}" class="my-2 text-blue-500 text-center">Add New
+                        <a href="{{ route('admin.store.createCategory') }}" class="my-2 text-blue-500 text-center">Add New
                             Category</a>
                     </div>
                 </div>

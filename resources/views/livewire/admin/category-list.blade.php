@@ -2,7 +2,7 @@
     <div class="section-header">
         Category List
     </div>
-    <a href="{{ route('admin.createCategory') }}" class="inline-block my-4 bg-green-600 text-white px-4 py-2 rounded">Add
+    <a href="{{ route('admin.store.createCategory') }}" class="inline-block my-4 bg-green-600 text-white px-4 py-2 rounded">Add
         Category</a>
     <div class="rounded-xl relative overflow-auto">
         <div class="shadow-sm overflow-hidden">
@@ -31,7 +31,7 @@
                                 <button class="w-8 h-8 bg-blue-600 text-white p-2 rounded mr-5">
                                     <x-icons.edit />
                                 </button>
-                                <button class="w-8 h-8 bg-red-600 text-white p-2 rounded">
+                                <button class="w-8 h-8 bg-red-600 text-white p-2 rounded" wire:click="confirm_delete({{$category->id}})">
                                     <x-icons.delete />
                                 </button>
                             </td>

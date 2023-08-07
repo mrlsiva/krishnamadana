@@ -135,9 +135,9 @@ class CreateProduct extends Component
         }
         $this->alert('success', $message);
         if ($this->editing) {
-            return redirect()->route('admin.productList');
+            return redirect()->route('admin.store.productList');
         } else {
-            return redirect()->route('admin.editProduct', ['product' => $this->product]);
+            return redirect()->route('admin.store.editProduct', ['product' => $this->product]);
         }
     }
 

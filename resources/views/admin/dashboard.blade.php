@@ -7,43 +7,70 @@
 @section('body')
     <div class="flex">
         <nav class="main-nav">
-            <ul>
+            <ul class="space-y-2">
                 <li>
-                    <a href="" class="text-center flex flex-col items-center justify-center active">
+                    <a href="{{ route('admin.store.productList') }}" class="text-center flex flex-col items-center justify-center @if(Route::is('admin.store.*')) active @endif">
                         <x-icons.store /> <span>Store</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('admin.order.list') }}" class="text-center flex flex-col items-center justify-center @if(Route::is('admin.order.*')) active @endif">
+                        <x-icons.store /> <span>Orders</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('admin.user.list') }}" class="text-center flex flex-col items-center justify-center @if(Route::is('admin.user.*')) active @endif">
+                        <x-icons.store /> <span>Users</span>
                     </a>
                 </li>
             </ul>
         </nav>
         <nav class="secondary-nav">
+            @if(Route::is('admin.store.*'))
             <ul>
                 <li>
-                    <a href="{{ route('admin.productList') }}" class="@isLinkActive('admin.productList')">Products</a>
+                    <a href="{{ route('admin.store.productList') }}" class="@isLinkActive('admin.store.productList')">Products</a>
                 </li>
                 <li>
-                    <a href="{{ route('admin.createProduct') }}" class="@isLinkActive('admin.createProduct')">Create
+                    <a href="{{ route('admin.store.createProduct') }}" class="@isLinkActive('admin.store.createProduct')">Create
                         Product</a>
                 </li>
                 <li>
-                    <a href="{{ route('admin.categoryList') }}" class="@isLinkActive('admin.categoryList')">Categories</a>
+                    <a href="{{ route('admin.store.categoryList') }}" class="@isLinkActive('admin.store.categoryList')">Categories</a>
                 </li>
                 <li>
-                    <a href="{{ route('admin.createCategory') }}" class="@isLinkActive('admin.createCategory')">Create
+                    <a href="{{ route('admin.store.createCategory') }}" class="@isLinkActive('admin.store.createCategory')">Create
                         Category</a>
                 </li>
-                <li>
+                {{-- <li>
                     <a href="">Collections</a>
                 </li>
                 <li>
                     <a href="">Create Collection</a>
+                </li> --}}
+                <li>
+                    <a href="{{ route('admin.store.createProductVariation') }}" class="@isLinkActive('admin.store.createProductVariation')">Product Variations</a>
                 </li>
                 <li>
-                    <a href="{{ route('admin.createProductVariation') }}" class="@isLinkActive('admin.createProductVariation')">Product Variations</a>
-                </li>
-                <li>
-                    <a href="{{ route('admin.createVariationOption') }}" class="@isLinkActive('admin.createVariationOption')">Variation Options</a>
+                    <a href="{{ route('admin.store.createVariationOption') }}" class="@isLinkActive('admin.store.createVariationOption')">Variation Options</a>
                 </li>
             </ul>
+            @endif
+            @if(Route::is('admin.user.*'))
+            <ul>
+                <li>
+                    <a href="{{ route('admin.user.list') }}" class="@isLinkActive('admin.user.list')">User List</a>
+                    <a href="{{ route('admin.user.create') }}" class="@isLinkActive('admin.user.create')">Create User</a>
+                </li>
+            </ul>
+            @endif
+            @if(Route::is('admin.order.*'))
+            <ul>
+                <li>
+                    <a href="{{ route('admin.order.list') }}" class="@isLinkActive('admin.order.list')">Order List</a>
+                </li>
+            </ul>
+            @endif
         </nav>
         <div class="page-content flex-1">
             <div class="header">

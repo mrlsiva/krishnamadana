@@ -2,7 +2,7 @@
     <div class="section-header">
         Product List
     </div>
-    <a href="{{ route('admin.createProduct') }}" class="inline-block my-4 bg-green-600 text-white px-4 py-2 rounded">Add
+    <a href="{{ route('admin.store.createProduct') }}" class="inline-block my-4 bg-green-600 text-white px-4 py-2 rounded">Add
         Product</a>
     <div class="rounded-xl relative overflow-auto">
         <div class="shadow-sm overflow-hidden">
@@ -32,7 +32,7 @@
                             <td class="p-4">5</td>
                             <td class="p-4">
                                 <div class="flex">
-                                    <a href="{{ route('admin.editProduct', ['product' => $product]) }}"
+                                    <a href="{{ route('admin.store.editProduct', ['product' => $product]) }}"
                                         class="inline-block w-8 h-8 bg-blue-600 text-white p-2 rounded mr-5">
                                         <x-icons.edit />
                                     </a>
