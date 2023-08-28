@@ -19,7 +19,7 @@
     <div class="flex w-full border-b pb-4">
         <nav class="w-full">
             <ul class="flex items-center justify-center w-full">
-                <li><a href="{{ route('home') }}" class="p-4 nav-link">Homeee</a></li>
+                <li><a href="{{ route('home') }}" class="p-4 nav-link">Home</a></li>
                 <li class="relative" x-data="{ open: false }" @mouseover.away="open=false">
                     <a href="" class="p-4 nav-link" @mouseover="open=true">Shop</a>
                     <ul class="dropdown-menu shop-menu" x-show="open">
