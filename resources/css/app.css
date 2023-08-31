@@ -261,3 +261,39 @@ footer .copyright {
     border: 1px solid #242323;
     color: #242323;
 }
+
+.pagination {
+    display: -ms-flexbox;
+    display: flex;
+    padding-left: 0;
+    list-style: none;
+    border-radius: .25rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.page-item {
+  position: relative;
+  display: block;
+  padding: 0; 
+  color: #5c5c5c;
+  text-decoration: none;
+  background-color: transparent;
+  border: 1px solid #e5e7eb;
+}
+
+.page-item .page-link {
+    padding: .5rem 1rem; 
+    display: block;
+}
+
+.page-item.active {
+    background-color: #5c5c5c;
+    color: #ffffff;
+}
+
+.page-item.disabled .page-link {
+    color: #6c757d;
+    pointer-events: none;
+    cursor: auto;   
+}

@@ -23,16 +23,16 @@
                 <li class="relative" x-data="{ open: false }" @mouseover.away="open=false">
                     <a href="" class="p-4 nav-link" @mouseover="open=true">Shop</a>
                     <ul class="dropdown-menu shop-menu" x-show="open">
-                        <a href="">Shop All</a>
-                        <a href="">Kurta Sets</a>
-                        <a href="">Saree All</a>
-                        <a href="">Blouses</a>
+                        <a href="{{ route('home.products') }}">Shop All</a>
+                        <a href="{{ route('home.collections', ['slug' => 'kurta-sets']) }}">Kurta Sets</a>
+                        <a href="{{ route('home.collections', ['slug' => 'saree-sets']) }}">Saree All</a>
+                        <a href="{{ route('home.collections', ['slug' => 'blouses']) }}">Blouses</a>
                     </ul>
                 </li>
                 {{-- <li class="relative" x-data="{ open: false }" @mouseover.away="open=false">
                     <a href="" class="p-4 nav-link" @mouseover="open=true">Collections</a>
                     <ul class="dropdown-menu collections-menu" x-show="open">
-                        <a href="">Shop All</a>
+                        <a href="{{ route('home.products') }}">Shop All</a>
                         <a href="">Marigold</a>
                         <a href="">Ikara</a>
                     </ul>
