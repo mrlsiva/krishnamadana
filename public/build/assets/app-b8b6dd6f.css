@@ -31,3 +31,21 @@
     pointer-events: none;
     cursor: auto;   
 }
+.pagination button svg,
+.pagination span svg{
+    width: 18px;
+    height: 18px;
+    display: inline;
+}
+.filterToolbar {
+    flex-direction: row-reverse;
+}
+.filterToolbar .sort-item select,
+.filterToolbar .sort-item select:focus{
+    border-color: inherit;
+    outline: none;
+}
+
+*:focus {
+    box-shadow: none !important;
+}
