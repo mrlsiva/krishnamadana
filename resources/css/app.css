@@ -1,5 +1,5 @@
 @import url('/node_modules/swiper/swiper-bundle.min.css');
-
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200;0,6..12,300;0,6..12,400;0,6..12,500;0,6..12,600;0,6..12,700;0,6..12,800;0,6..12,900;0,6..12,1000;1,6..12,200;1,6..12,300;1,6..12,400;1,6..12,500;1,6..12,600;1,6..12,700;1,6..12,800;1,6..12,900;1,6..12,1000&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -243,15 +243,26 @@ footer {
 footer h3 {
     text-transform: uppercase;
     color: #5C5C5C;
-    font-size: 18px;
+    font-family: 'Nunito Sans', sans-serif;
+
+font-size: 18px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
     margin-bottom: 1rem;
 }
 footer nav li {
     margin: 0.5rem 0;
 }
 footer nav li a {
-    color: #777777;
-    font-size: 0.85rem;
+    color: #777;
+    font-family: 'Nunito Sans', sans-serif;
+font-size: 16px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+letter-spacing: 0;
+text-transform: none;
 }
 footer .copyright {
     color: #777777;
