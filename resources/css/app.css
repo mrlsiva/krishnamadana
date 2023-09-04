@@ -237,7 +237,7 @@ a.nav-link:hover::after {
     font-size: 0.85rem;
 }
 footer {
-    padding: 2rem 3rem;
+    padding: 40px 3rem;
     border-top: 1px solid #e7e7e7;
 }
 footer h3 {
@@ -265,7 +265,16 @@ letter-spacing: 0;
 text-transform: none;
 }
 footer .copyright {
-    color: #777777;
+    color: #777;
+    font-family: 'Nunito Sans', sans-serif;
+font-size: 16px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+letter-spacing: 0;
+margin-top: 120px;
+margin-bottom: 40px;
+/* text-transform: none; */
 }
 
 .variation-input:checked + .variation-label {
