@@ -11,7 +11,15 @@
                 <option value="low">Price - Low To High</option>
                 <option value="heigh">Price - High To Low</option>
             </select>
-        </div>
+        </div>       
+        {{--
+        @foreach ($this->categories as $category)
+            <div class="flex items-center space-x-4 mb-2" wire:key="{{ $category->id }}">
+                <input type="checkbox" id="{{ $category->name }}" name="{{ $category->name }}"
+                    wire:model="filters.categories.{{ $category->id }}" />
+                <label for="{{ $category->name }}">{{ $category->name }}</label>
+            </div>
+        @endforeach --}}
         <!-- <div class="sort-item product">
             <select name="perPage" class="use-chosen" wire:model="perPage">
                 <option value="1" selected="selected">1 per page</option>

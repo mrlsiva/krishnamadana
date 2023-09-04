@@ -10,6 +10,7 @@
                 <thead class="bg-gray-200">
                     <tr>
                         <th class="bg-grid-slate-100 border-b p-4 text-slate-800 text-left font-medium">#</th>
+						<th class="border-b p-4 text-slate-800 text-left font-medium">Thumb</th>
                         <th class="border-b p-4 text-slate-800 text-left font-medium">Product</th>
                         <th class="border-b p-4 text-slate-800 text-left font-medium">Stock</th>
                         <th class="border-b p-4 text-slate-800 text-left font-medium">Price</th>
@@ -25,7 +26,17 @@
                     @foreach ($products as $product)
                         <tr>
                             <td class="p-4">{{ $loop->iteration }}.</td>
+							<td class="p-4">
+							@foreach ($product->media->slice(0, 2) as $image)                                                   
+								@if ($loop->first)
+								<img src="{{ $image->original_url }}"
+									class="@if ($loop->first) front-image @else back-image @endif"
+									alt="{{ $product->name }}" width="80" height="80">
+								@endif
+							@endforeach</td>
                             <td class="p-4">{{ $product->name }}</td>
+
+                            </td>
                             <td class="p-4">14</td>
                             <td class="p-4">Rs. 200</td>
                             <td class="p-4">10</td>

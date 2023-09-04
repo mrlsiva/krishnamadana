@@ -128,12 +128,13 @@ class CreateProduct extends Component
         }
 
         foreach ($this->uploads as $upload) {
-            $path = Storage::path('/livewire-tmp/' . $upload['fileRef']->getFileName());
+            $path = Storage::path('/livewire-tmp/' . $upload['fileRef']->getFileName());		
             $this->product->addMedia($path)
                 ->withResponsiveImages()
                 ->toMediaCollection('products');
         }
-        $this->alert('success', $message);
+        $this->alert('success', $message);	
+		
         if ($this->editing) {
             return redirect()->route('admin.store.productList');
         } else {
