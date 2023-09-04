@@ -274,7 +274,6 @@ line-height: normal;
 letter-spacing: 0;
 margin-top: 120px;
 margin-bottom: 40px;
-/* text-transform: none; */
 }
 
 .variation-input:checked + .variation-label {
