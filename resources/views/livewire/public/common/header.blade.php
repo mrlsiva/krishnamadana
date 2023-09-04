@@ -1,3 +1,6 @@
+<?php use App\Http\Livewire\Public\Category\CategoryList;
+  $mainCategories =  CategoryList::Categories();
+  ?>
 <div class="flex flex-col">
     <div class="flex my-4 w-full items-center">
         <div class="flex-1"></div>
@@ -24,9 +27,13 @@
                     <a href="" class="p-4 nav-link" @mouseover="open=true">Shop</a>
                     <ul class="dropdown-menu shop-menu" x-show="open">
                         <a href="{{ route('home.products') }}">Shop All</a>
-                        <a href="{{ route('home.collections', ['slug' => 'kurta-sets']) }}">Kurta Sets</a>
-                        <a href="{{ route('home.collections', ['slug' => 'saree-sets']) }}">Saree All</a>
-                        <a href="{{ route('home.collections', ['slug' => 'blouses']) }}">Blouses</a>
+                         <!--<a href="{{ route('home.collections', ['slug' => 'kurta-sets']) }}">Kurta Sets</a>
+                       <a href="{{ route('home.collections', ['slug' => 'saree-sets']) }}">Saree All</a>
+                        <a href="{{ route('home.collections', ['slug' => 'blouses']) }}">Blouses</a> -->
+						
+						@foreach($mainCategories as $cat)
+						  <a href="{{ route('home.collections', ['slug' => $cat->slug]) }}">{{ $cat->name }}</a>
+						@endforeach 
                     </ul>
                 </li>
                 {{-- <li class="relative" x-data="{ open: false }" @mouseover.away="open=false">

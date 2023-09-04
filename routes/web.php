@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+//Artisan::call('storage:link');
 Route::prefix('admin')->group(base_path('routes/admin_routes.php'));
 
 Route::view('/', 'public.home')->name('home');
