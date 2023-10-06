@@ -23,7 +23,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//Artisan::call('storage:link');
 Route::prefix('admin')->group(base_path('routes/admin_routes.php'));
 
 Route::view('/', 'public.home')->name('home');
@@ -45,9 +44,12 @@ Route::name('home.')->group(function () {
 
 Route::get('/clear', function() {
     $exitCode = Artisan::call('cache:clear');
+	$exitCode = Artisan::call('config:clear');
+    $exitCode = Artisan::call('config:cache');
     $exitCode = Artisan::call('route:cache');
-    $exitCode = Artisan::call('route:clear');
+    $exitCode = Artisan::call('route:clear');	
     $exitCode = Artisan::call('view:clear');
+    
     return '<h1>All cache cleared</h1>';
 });
 

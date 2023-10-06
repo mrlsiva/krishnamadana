@@ -181,6 +181,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+		Laravel\Passport\PassportServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -216,4 +217,11 @@ return [
     'razorpay_keyid' => env("RAZOR_PAY_KEY"),
     'razorpay_secret' => env("RAZOR_PAY_SECRET"),
 
+    'guards' => [        
+        'api' => [
+            'driver' => 'passport',
+            'provider' => 'users',
+            'hash' => true,
+        ],
+    ],
 ];
