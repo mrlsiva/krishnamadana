@@ -12,8 +12,10 @@ use App\Http\Controllers\API\Public\CartController;
 
 use App\Http\Controllers\API\Admin\Auth\AdminAuthController;  
 use App\Http\Controllers\API\Admin\AdminProductController; 
+use App\Http\Controllers\API\Admin\AdminProductVariationController;
 use App\Http\Controllers\API\Admin\AdminCategoryController; 
-use App\Http\Controllers\API\Admin\AdminUsersController;
+use App\Http\Controllers\API\Admin\AdminUsersController; 
+use App\Http\Controllers\API\Admin\AdminOrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -66,6 +68,16 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('/products/edit/{id}', [AdminProductController::class, 'editProduct'])->name('editProduct');
     Route::post('/products/delete/{id}', [AdminProductController::class, 'deleteProduct'])->name('deleteProduct');
 
+    Route::get('/products/variations', [AdminProductVariationController::class, 'index'])->name('index');
+    Route::post('/products/variations/create', [AdminProductVariationController::class, 'createVariation'])->name('createVariation');
+    Route::post('/products/variations/edit/{id}', [AdminProductVariationController::class, 'editVariation'])->name('editVariation');
+    Route::post('/products/variations/delete/{id}', [AdminProductVariationController::class, 'deleteVariation'])->name('deleteVariation');
+
+    Route::get('/products/variation-options', [AdminProductVariationController::class, 'indexVariationOption'])->name('indexVariationOption');
+    Route::post('/products/variation-options/create', [AdminProductVariationController::class, 'createVariationOption'])->name('createVariationOption');
+    Route::post('/products/variation-options/edit/{id}', [AdminProductVariationController::class, 'editVariationOption'])->name('editVariationOption');
+    Route::post('/products/variation-options/delete/{id}', [AdminProductVariationController::class, 'deleteVariationOption'])->name('deleteVariationOption');
+
     Route::get('/categories', [AdminCategoryController::class, 'index'])->name('index');
     Route::post('/categories/create', [AdminCategoryController::class, 'createCategory'])->name('createCategory');
     Route::post('/categories/edit/{id}', [AdminCategoryController::class, 'editCategory'])->name('editCategory');
@@ -76,9 +88,12 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('/users/edit/{id}', [AdminUsersController::class, 'editUser'])->name('editUser');
     Route::post('/users/delete/{id}', [AdminUsersController::class, 'deleteUser'])->name('deleteUser');
 
+    Route::get('/orders', [AdminOrderController::class, 'index'])->name('index');
+    Route::get('/orders/{id}', [AdminOrderController::class, 'getOrderDetails'])->name('getOrderDetails');
+    Route::post('/orders/edit/{id}', [AdminOrderController::class, 'editOrder'])->name('editOrder');
+
     Route::middleware(['auth:admin'])->group(function () {
-       // Route::get('/dashboard', ProductsController::class)->name('dashboard');  
-       
+       // Route::get('/dashboard', ProductsController::class)->name('dashboard');         
        Route::post('/logout', [AdminAuthController::class, 'adminLogout'])->name('adminLogout');
     });
 });
