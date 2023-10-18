@@ -22,7 +22,7 @@ class AdminProductVariationController extends Controller
     use WithPagination;
 
     /* Get All Product Variations */
-    public function index()
+    public function variationsIndex()
     {
         try {
             $variation = Variation::paginate(12); 

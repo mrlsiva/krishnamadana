@@ -21,7 +21,7 @@ class AdminCategoryController extends Controller
     use WithPagination;
 
     /* Get All Category  */
-    public function index()
+    public function categoriesIndex()
     {
         try {
             $category = Category::paginate(12);   

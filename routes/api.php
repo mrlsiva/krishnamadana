@@ -63,12 +63,12 @@ Route::get('/cart/quantity/minus/{id}', [CartController::class, 'reduce_quantity
 Route::group(['prefix' => 'admin'], function () {    
     Route::post('/login', [AdminAuthController::class, 'adminLogin'])->name('adminLogin');
 
-    Route::get('/products', [AdminProductController::class, 'index'])->name('index');
+    Route::get('/products', [AdminProductController::class, 'productsIndex'])->name('productsIndex');
     Route::post('/products/create', [AdminProductController::class, 'createProduct'])->name('createProduct');
     Route::post('/products/edit/{id}', [AdminProductController::class, 'editProduct'])->name('editProduct');
     Route::post('/products/delete/{id}', [AdminProductController::class, 'deleteProduct'])->name('deleteProduct');
 
-    Route::get('/products/variations', [AdminProductVariationController::class, 'index'])->name('index');
+    Route::get('/products/variations', [AdminProductVariationController::class, 'variationsIndex'])->name('variationsIndex');
     Route::post('/products/variations/create', [AdminProductVariationController::class, 'createVariation'])->name('createVariation');
     Route::post('/products/variations/edit/{id}', [AdminProductVariationController::class, 'editVariation'])->name('editVariation');
     Route::post('/products/variations/delete/{id}', [AdminProductVariationController::class, 'deleteVariation'])->name('deleteVariation');
@@ -78,17 +78,17 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('/products/variation-options/edit/{id}', [AdminProductVariationController::class, 'editVariationOption'])->name('editVariationOption');
     Route::post('/products/variation-options/delete/{id}', [AdminProductVariationController::class, 'deleteVariationOption'])->name('deleteVariationOption');
 
-    Route::get('/categories', [AdminCategoryController::class, 'index'])->name('index');
+    Route::get('/categories', [AdminCategoryController::class, 'categoriesIndex'])->name('categoriesIndex');
     Route::post('/categories/create', [AdminCategoryController::class, 'createCategory'])->name('createCategory');
     Route::post('/categories/edit/{id}', [AdminCategoryController::class, 'editCategory'])->name('editCategory');
     Route::post('/categories/delete/{id}', [AdminCategoryController::class, 'deleteCategory'])->name('deleteCategory');
 
-    Route::get('/users', [AdminUsersController::class, 'index'])->name('index');
+    Route::get('/users', [AdminUsersController::class, 'usersIndex'])->name('usersIndex');
     Route::get('/users/{id}', [AdminUsersController::class, 'getUserDetails'])->name('getUserDetails');
     Route::post('/users/edit/{id}', [AdminUsersController::class, 'editUser'])->name('editUser');
     Route::post('/users/delete/{id}', [AdminUsersController::class, 'deleteUser'])->name('deleteUser');
 
-    Route::get('/orders', [AdminOrderController::class, 'index'])->name('index');
+    Route::get('/orders', [AdminOrderController::class, 'ordersIndex'])->name('ordersIndex');
     Route::get('/orders/{id}', [AdminOrderController::class, 'getOrderDetails'])->name('getOrderDetails');
     Route::post('/orders/edit/{id}', [AdminOrderController::class, 'editOrder'])->name('editOrder');
 

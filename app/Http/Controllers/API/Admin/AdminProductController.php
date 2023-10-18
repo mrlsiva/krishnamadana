@@ -20,7 +20,7 @@ class AdminProductController extends Controller
     use WithPagination;
 
     /* Get All Products  */
-    public function index()
+    public function productsIndex()
     {
         try {
             $products = Product::paginate(12);   

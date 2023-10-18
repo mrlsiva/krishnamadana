@@ -19,7 +19,7 @@ class AdminOrderController extends Controller
     use WithPagination;
 
     /* Get All Orders  */
-    public function index()
+    public function ordersIndex()
     {
         try {
             $order = Order::paginate(12);   

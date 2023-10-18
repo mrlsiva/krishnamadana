@@ -20,7 +20,7 @@ class AdminUsersController extends Controller
     use WithPagination;
 
     /* Get All Users  */
-    public function index()
+    public function usersIndex()
     {
         try {
             $user = User::paginate(12);   
