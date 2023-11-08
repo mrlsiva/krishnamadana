@@ -26,6 +26,8 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('admin')->group(base_path('routes/admin_routes.php'));
 
 Route::view('/', 'public.home')->name('home');
+Route::view('/about-us', 'public.about')->name('about-us');
+Route::view('/contact-us', 'public.contact')->name('contact-us');
 Route::name('home.')->group(function () {
     Route::get('/products', ProductList::class)->name('products');
     Route::get('/product/{slug}', ProductDetails::class)->name('product-details');

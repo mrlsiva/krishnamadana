@@ -49,3 +49,22 @@
 *:focus {
     box-shadow: none !important;
 }
+
+/* Top Bar */
+.top-bar {
+	background-color: #333333;
+}
+
+.width-3\/4{
+    width: 75%
+}
+.align-center {
+	margin-left: auto;	
+	margin-right: auto;
+}
+
+@media (max-width: 767px) { 
+	.width-3\/4{
+		width: 100%
+	}
+}

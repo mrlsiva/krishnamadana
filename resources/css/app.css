@@ -20,6 +20,7 @@ a {
     text-transform: uppercase;
     letter-spacing: 0.2em;
 }
+
 a.nav-link {
     position: relative;
 }
@@ -335,4 +336,9 @@ margin-bottom: 40px;
 
 *:focus {
     box-shadow: none !important;
+}
+
+/* Top Bar */
+.top-bar {
+	background-color: #333333;
 }

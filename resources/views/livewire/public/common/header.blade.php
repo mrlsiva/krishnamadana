@@ -13,8 +13,7 @@
                     <a href="{{ route('home.account') }}" class="px-4">Account</a>
                 @else
                     <a href="{{ route('home.login') }}" class="px-4">Account</a>
-                @endauth
-                <a href="" class="px-4">Search</a>
+                @endauth                
                 <a href="{{ route('home.cart') }}" class="px-4">Cart ({{ Cart::getTotalQuantity() }})</a>
             </nav>
         </div>
@@ -45,8 +44,8 @@
                     </ul>
                 </li>
                 <li><a href="" class="p-4 nav-link">Sale</a></li> --}}
-                <li><a href="" class="p-4 nav-link">About Us</a></li>
-                <li><a href="" class="p-4 nav-link">Contact Us</a></li>
+                <li><a href="/about-us" class="p-4 nav-link">About Us</a></li>
+                <li><a href="/contact-us" class="p-4 nav-link">Contact Us</a></li>
             </ul>
         </nav>
     </div>
