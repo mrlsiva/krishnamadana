@@ -195,7 +195,8 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        Darryldecode\Cart\CartServiceProvider::class
+        Darryldecode\Cart\CartServiceProvider::class,
+       // Srmklive\PayPal\Providers\PayPalServiceProvider::class
     ],
 
     /*
@@ -216,6 +217,7 @@ return [
 
     'razorpay_keyid' => env("RAZOR_PAY_KEY"),
     'razorpay_secret' => env("RAZOR_PAY_SECRET"),
+	'insta_access_token' => env("INSTA_ACCESS_TOKEN"),	
 
     'guards' => [        
         'api' => [

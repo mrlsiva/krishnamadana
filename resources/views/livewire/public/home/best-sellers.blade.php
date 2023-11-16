@@ -1,5 +1,5 @@
 <div class="flex flex-col best-sellers p-8">
-    <h2 class="text-center text-2xl font-semibold">Best Sellers</h2>
+    <h2 class="text-center text-2xl font-semibold">BEST SELLERS</h2>
     <div class="grid grid-cols-4 gap-8 mx-4 my-8">
         @foreach ($products as $product)
             <div class="flex flex-col text-center">
@@ -13,7 +13,7 @@
                     </div>
                 </a>
                 <h2 class="mt-2"><a href="">{{ $product->name }}</a></h2>
-                <p class="price">Rs. {{ $product->display_price }}</p>
+                <p class="price mt-2">Rs. {{ $product->display_price }}</p>
             </div>
         @endforeach
     </div>

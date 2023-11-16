@@ -19,6 +19,7 @@
         "razorpay/razorpay": "2.*",
         "spatie/laravel-medialibrary": "^10.9",
         "spatie/laravel-permission": "^5.10",
+        "srmklive/paypal": "^3.0",
         "wire-elements/modal": "^1.0"
     },
     "require-dev": {

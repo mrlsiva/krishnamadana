@@ -1,4 +1,4 @@
-<section class="p-4 our-promises flex flex-col items-center justify-center">
+<section class="p-4 py-12 our-promises flex flex-col items-center justify-center">
     <h2 class="mb-4">Our Promises</h2>
     <div class="w-full flex items-center justify-center">
         <div class="flex flex-col items-center justify-center mx-8">

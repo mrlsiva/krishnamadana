@@ -5,8 +5,8 @@
 @tailwind utilities;
 
 :root {
-    --header-font-family: 'Century Gothic', sans-serif;
-    --text-font-family: 'Century Gothic', sans-serif;
+    --header-font-family: 'Nunito Sans', sans-serif;
+    --text-font-family: 'Nunito Sans', sans-serif;
     --header-heading-color: #5c5c5c;
     --primary-color: #5c5c5c;
     --text-color-light: #939393;
@@ -122,7 +122,7 @@ a.nav-link:hover::after {
     font-size: 24px;
     color: #fff;
     text-transform: uppercase;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.1em;
     margin-bottom: 2rem;
 }
 .product__images::before {
@@ -201,10 +201,10 @@ a.nav-link:hover::after {
     transform: scaleX(0);
 }
 .banner-text p {
-    width: 30%;
+    width: 35%;
     margin-left: 30%;
     margin-right: 10%;
-    font-size: 24px;
+    font-size: 30px;
     color: var(--primary-color);
 }
 .banner-text p .color-red {
@@ -340,5 +340,5 @@ margin-bottom: 40px;
 
 /* Top Bar */
 .top-bar {
-	background-color: #333333;
+	background-color: #000000;
 }

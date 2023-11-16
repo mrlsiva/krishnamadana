@@ -12,6 +12,9 @@ use App\Http\Livewire\Public\Product\ProductDetails;
 use App\Http\Livewire\Public\Product\ProductList;
 use Illuminate\Support\Facades\Route;
 
+use Illuminate\Http\Request;
+use App\Http\Requests;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
