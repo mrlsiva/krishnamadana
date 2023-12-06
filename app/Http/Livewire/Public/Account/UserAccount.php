@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Public\Account;
 
 use App\Models\Order;
+use App\Models\Status;
 use App\Models\UserAddress;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
@@ -15,6 +16,7 @@ class UserAccount extends Component
     public $primary_address;
     public $address_count;
     public $orders;
+    public $statuses;
 
     public function mount()
     {
@@ -27,6 +29,9 @@ class UserAccount extends Component
             'user_id' => $userId,
             'is_default' => false
         ])->count();
+
+        $this->statuses = Status::get();	
+
         $this->orders = Order::with('shipping_address', 'order_items', 'order_items.product', 'order_items.product.media', 'order_items.statuses', 'order_items.statuses.status')
             ->where('user_id', $userId)->get();
     }

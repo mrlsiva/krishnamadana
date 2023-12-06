@@ -10,6 +10,7 @@ use App\Http\Livewire\Admin\CreateVariationOption;
 use App\Http\Livewire\Admin\OrderList;
 use App\Http\Livewire\Admin\ProductList;
 use App\Http\Livewire\Admin\UserList;
+use App\Http\Controllers\OrderStatusController;
 use Illuminate\Support\Facades\Route;
 
 Route::name('admin.')->group(function () {
@@ -33,6 +34,7 @@ Route::name('admin.')->group(function () {
         });
         Route::prefix('/order')->name('order.')->group(function() {
             Route::get('/list', OrderList::class)->name('list');
+            Route::post('/updateOrderStatus', [OrderStatusController::class, 'updateOrderStatus'])->name('updateOrderStatus');
         });
     });
 });

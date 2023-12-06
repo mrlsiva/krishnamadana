@@ -43,7 +43,7 @@
                         </div>
                     </div>
                     <div class="flex">
-                        @foreach ($order->order_items as $item)
+                        @foreach ($order->order_items as $item)						
                             <div class="flex flex-col w-full">
                                 <p class="px-4 pt-2 text-lg font-bold">{{ $item->statuses->last()->status->status }}
                                 </p>
@@ -56,13 +56,46 @@
                                         </p>
                                         <p>{{ $item->variant_name }}</p>
                                     </div>
-                                    <div class="flex flex-col justify-center">
+                                   <!-- <div class="flex flex-col justify-center">
                                         <button class="border px-4 py-2 rounded shadow text-sm">Track Package</button>
-                                    </div>
+                                    </div> -->
                                 </div>
-                            </div>
+                            </div>							
+														
+
+							<div class="flex flex-col w-full p-4 mt-4">
+								<h3 class="px-4 pt-2 text-lg font-bold">Order status</h3>
+								<div class="container">
+								  <div class="flex flex-col md:grid grid-cols-12 text-gray-50">
+									@foreach ($statuses as $status)	
+										
+										@if ( $status->id <= $item->statuses->last()->status->id )
+											@php $active='green-500'; @endphp					
+										@else	
+											@php $active='gray-300'; @endphp
+										@endif
+										<div class="flex md:contents">
+										  <div class="col-start-2 col-end-4 mr-10 md:mx-auto relative">
+											<div class="h-full w-6 flex items-center justify-center">
+											  <div class="h-full w-1 bg-{{$active}} pointer-events-none"></div>
+											</div>
+											<div class="w-6 h-6 absolute top-1/2 -mt-3 rounded-full bg-{{$active}} shadow text-center">
+											  <i class="fas fa-check-circle text-white"></i>
+											</div>
+										  </div>
+										  <div class="bg-{{$active}} col-start-4 col-end-12 p-2 rounded-xl my-2 mr-auto shadow-md w-full">
+											<h3 class="font-semibold text-sm mb-0">{{ $status->status }}</h3>											
+										  </div>
+										</div>
+									@endforeach				
+
+									
+
+								  </div>
+								</div>
+							  </div>							
                         @endforeach
-                    </div>
+                    </div>					
                 </div>
             @empty
                 <p>You have not placed any orders yet.</p>
